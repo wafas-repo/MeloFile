@@ -2,4 +2,19 @@
 
 {% block body %}
 <h1>HOME PAGE</h1>
+
+
+<div>
+
+    <a href="{% url 'add-song' %}">Add Song</a>
+
+    <div>
+        {% for song in songs %}
+            <div>
+                <h5>{{song.id}} -- <a href="{% url 'song' song.id %}">{{song.title}}</a> -- {{song.artist}} </h5>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
 {% endblock %}

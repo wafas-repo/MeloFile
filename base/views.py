@@ -1,15 +1,34 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
+from . models import Song
+from . forms import SongForm
 
 
 # Create your views here.
 
 def home(request):
-    return render(request, 'base/home.html')
+    songs =  Song.objects.all()
+    context = {'songs': songs}
+    return render(request, 'base/home.html', context )
 
+def song_page(request, pk):
+    song =  Song.objects.get(id=pk)
+    context = {'song': song}
+    return render(request, 'base/song.html', context)
+
+def createLyricPage(request):
+    form = SongForm()
+    if request.method == 'POST':
+        form = SongForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+
+    context = {'form':form}
+    return render(request, "base/song_form.html", context)
 
 def login_view(request):
     if request.method == "POST":
