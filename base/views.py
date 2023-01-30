@@ -1,17 +1,24 @@
 from django.shortcuts import render, redirect
+from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
-from . models import Song
+from . models import Song, Genre
 from . forms import SongForm
 
 
 # Create your views here.
 
 def home(request):
-    songs =  Song.objects.all()
-    context = {'songs': songs}
+    q = request.GET.get('q') if request.GET.get('q') != None else ''
+    songs =  Song.objects.filter(
+        Q(title__icontains=q) |
+        Q(genre__name__icontains=q) | 
+        Q(artist__icontains=q)
+        )
+    genres= Genre.objects.all()
+    context = {'songs': songs, 'genres': genres}
     return render(request, 'base/home.html', context )
 
 def song_page(request, pk):
