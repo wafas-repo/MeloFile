@@ -80,3 +80,27 @@ def register(request):
         return HttpResponseRedirect(reverse("home"))
     else:
         return render(request, "base/register.html")
+
+
+def editLyrics(request, pk):
+    song = Song.objects.get(id=pk)
+    form = SongForm(instance=song)
+
+    if request.method == 'POST':
+        form = SongForm(request.POST, instance=song)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    context = {'form':form}
+    return render(request, "base/song_form.html", context)
+
+def deleteSong(request, pk):
+    song = Song.objects.get(id=pk)
+
+    if request.user != song.creator:
+        return HttpResponse('Your are not allowed here!!')
+
+    if request.method == 'POST':
+        song.delete()
+        return redirect('home')
+    return render(request, 'base/delete.html', {'obj': song})
