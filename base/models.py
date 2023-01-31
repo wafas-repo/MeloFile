@@ -15,6 +15,8 @@ class Song(models.Model):
     title = models.CharField(max_length=50)
     artist = models.CharField(max_length=20)
     lyrics = models.TextField(null=False, blank=False)
+    contributors = models.ManyToManyField(User, related_name='contributors', blank=True)
+    #rating
     genre = models.ManyToManyField(Genre)
     creator = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     updated = models.DateTimeField(auto_now=True)

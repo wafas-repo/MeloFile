@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
-from . models import Song, Genre
+from . models import Song, Genre, Comment, User
 from . forms import SongForm
 
 
@@ -23,7 +23,17 @@ def home(request):
 
 def song_page(request, pk):
     song =  Song.objects.get(id=pk)
-    context = {'song': song}
+    comments = song.comments.all().order_by('-date_added')
+    contributors = song.contributors.all()
+    song.contributors.add(song.creator)
+    if request.method == 'POST':
+        comment = Comment.objects.create(
+            user=request.user,
+            song=song,
+            comment=request.POST.get('comment')
+        )
+        return redirect('song', pk=song.id)
+    context = {'song': song, 'comments':comments, 'contributors':contributors}
     return render(request, 'base/song.html', context)
 
 def createLyricPage(request):
@@ -111,3 +121,14 @@ def deleteSong(request, pk):
         song.delete()
         return redirect('home')
     return render(request, 'base/delete.html', {'obj': song})
+
+def deleteComment(request, pk):
+    comment = Comment.objects.get(id=pk)
+
+    if request.user != comment.user:
+        return HttpResponse('Your are not allowed here!!')
+
+    if request.method == 'POST':
+        comment.delete()
+        return redirect('home')
+    return render(request, 'base/delete.html', {'obj': comment})

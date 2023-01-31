@@ -3,5 +3,48 @@
 {% block body %}
 
     <h1>{{song.title}}</h1>
+    <h3>{{song.artist}}</h3>
+    
+    <p>{{song.lyrics}}</p>
+
+    <div class="contributors-container">
+
+        <h3>Contributors</h3>
+        <hr>
+        {% for user in contributors %}
+            <div>
+                <p>@{{user.username}}</p>
+            </div>
+        {% endfor %}
+
+    </div>
+
+    <div class="comment-wrapper">
+        <h3>Comments</h3>
+        <hr>
+
+        {% for comment in comments %}
+
+            <div>
+                {% if request.user == comment.user %}
+                    <a href="{% url 'delete-comment' comment.id %}">Delete</a>
+                {% endif %}
+                <small>@{{comment.user}} {{comment.date_added|timesince}} ago </small>
+                <p>{{comment.comment}}</p>
+                <hr>
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% if request.user.is_authenticated %}
+    <div class="comment-form">
+        <form method="POST" action="">
+            {% csrf_token %}
+            <input type="text" name="comment" placeholder="Leave a comment...">
+        </form>
+    </div>
+    {% endif %}
 
 {% endblock %}
