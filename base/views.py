@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
-from . models import Song, Genre, Comment, User
+from . models import Song, Genre, Comment, User, Rating
 from . forms import SongForm
 
 
@@ -26,6 +26,10 @@ def song_page(request, pk):
     comments = song.comments.all().order_by('-date_added')
     contributors = song.contributors.all()
     song.contributors.add(song.creator)
+    ratings = Rating.objects.filter(song=song)
+    rating = Rating.objects.filter(song=song, user=request.user).first()
+    song.user_rating = rating.rating if rating else 0
+    rating_count = ratings.count()
     if request.method == 'POST':
         comment = Comment.objects.create(
             user=request.user,
@@ -33,7 +37,7 @@ def song_page(request, pk):
             comment=request.POST.get('comment')
         )
         return redirect('song', pk=song.id)
-    context = {'song': song, 'comments':comments, 'contributors':contributors}
+    context = {'song': song, 'comments':comments, 'contributors':contributors, 'rating_count':rating_count}
     return render(request, 'base/song.html', context)
 
 def createLyricPage(request):
@@ -132,3 +136,9 @@ def deleteComment(request, pk):
         comment.delete()
         return redirect('home')
     return render(request, 'base/delete.html', {'obj': comment})
+
+def rate(request, pk, rating):
+    song = Song.objects.get(id=pk)
+    Rating.objects.filter(song=song, user=request.user).delete()
+    song.ratings.create(user=request.user, rating=rating)
+    return render(request, 'base/song.html')

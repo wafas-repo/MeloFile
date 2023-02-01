@@ -8,6 +8,7 @@ urlpatterns = [
     path('edit-song/<str:pk>/', views.editLyrics, name="edit-song"),
     path('delete-song/<str:pk>/', views.deleteSong, name="delete-song"),
     path('delete-comment/<str:pk>/', views.deleteComment, name="delete-comment"),
+    path('rate/<str:pk>/<int:rating>/', views.rate),
 
     path("login", views.login_view, name="login"),
     path("logout", views.logout_view, name="logout"),

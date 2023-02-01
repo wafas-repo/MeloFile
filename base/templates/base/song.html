@@ -2,8 +2,54 @@
 
 {% block body %}
 
+<style>
+    .rating-list li {
+      float: right;
+      color: #ddd;
+      padding: 10px 5px;
+    }
+
+    .rating-list li:hover,
+    .rating-list li:hover ~ li {
+      color: orange;
+    }
+
+    .rating-list {
+      display: inline-block;
+      list-style: none;
+    }
+    .checked {
+        color: orange;
+    }
+</style>
+
     <h1>{{song.title}}</h1>
     <h3>{{song.artist}}</h3>
+
+    <h5 class="card-title">Avg rating:
+        <span class="fa fa-star {% if song.average_rating > 0 %} checked {% endif %}"></span>
+        <span class="fa fa-star {% if song.average_rating > 1 %} checked {% endif %}"></span>
+        <span class="fa fa-star {% if song.average_rating > 2 %} checked {% endif %}"></span>
+        <span class="fa fa-star {% if song.average_rating > 3 %} checked {% endif %}" ></span>
+        <span class="fa fa-star {% if song.average_rating > 4 %} checked {% endif %}"></span>
+        <span>({{rating_count}} ratings)</span>
+    </h5> 
+
+    <ul class="btn btn-light list-inline rating-list">
+        <li onclick="rate(5, {{ song.id }})">
+            <i class="fa fa-star {% if song.user_rating > 4 %} checked {% endif %}" title="Rate 5"></i></li>
+        <li onclick="rate(4, {{ song.id }})">
+            <i class="fa fa-star {% if song.user_rating > 3 %} checked {% endif %}" title="Rate 4"></i></li>
+        <li onclick="rate(3, {{ song.id }})">
+            <i class="fa fa-star {% if song.user_rating > 2 %} checked {% endif %}" title="Rate 3"></i></li>
+        <li onclick="rate(2, {{ song.id }})">
+            <i class="fa fa-star {% if song.user_rating > 1 %} checked {% endif %}" title="Rate 2"></i></li>
+        <li onclick="rate(1, {{ song.id }})">
+            <i class="fa fa-star {% if song.user_rating > 0 %} checked {% endif %}" title="Rate 1"></i></li>
+      </ul>
+
+    
+
     
     <p>{{song.lyrics}}</p>
 
@@ -46,5 +92,20 @@
         </form>
     </div>
     {% endif %}
+
+    <script>
+        const rate = (rating, song_id) => {
+            fetch(`/rate/${song_id}/${rating}/`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(rest => {
+                window.location.reload();
+                // you may want to update the rating here
+                // to simplify stuff, I just reload the page
+            })
+        }
+    </script>
 
 {% endblock %}
