@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
-from . models import Song, Genre, Comment, User, Rating
+from . models import Song, Genre, Comment, User, Rating, Artist
 from . forms import SongForm
 
 
@@ -15,11 +15,19 @@ def home(request):
     songs =  Song.objects.filter(
         Q(title__icontains=q) |
         Q(genre__name__icontains=q) | 
-        Q(artist__icontains=q)
+        Q(artist__name__icontains=q)
         )
     genres= Genre.objects.all()
     context = {'songs': songs, 'genres': genres}
     return render(request, 'base/home.html', context )
+
+def userProfile(request, pk):
+    user = User.objects.get(id=pk)
+    songs = user.song_set.all()
+    # comments = user.comment_set.all()
+    # genres = Genre.objects.all()
+    context = {'user':user, 'songs': songs,}
+    return render(request, 'base/profile.html', context)
 
 def song_page(request, pk):
     song =  Song.objects.get(id=pk)
@@ -45,7 +53,9 @@ def createLyricPage(request):
     if request.method == 'POST':
         form = SongForm(request.POST)
         if form.is_valid():
-            form.save()
+            song = form.save(commit=False)
+            song.creator = request.user
+            song.save()
             return redirect('home')
 
     context = {'form':form}

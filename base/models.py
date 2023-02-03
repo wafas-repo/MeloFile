@@ -4,7 +4,9 @@ from django.db.models import Avg
 # Create your models here.
 
 class User(AbstractUser):
+    # avatar = models.ImageField()
     pass
+    
 
 class Genre(models.Model):
     name = models.CharField(max_length=50)
@@ -12,9 +14,15 @@ class Genre(models.Model):
     def __str__(self):
         return self.name
 
+class Artist(models.Model):
+    name = models.CharField(max_length=60)
+
+    def __str__(self):
+        return self.name
+
 class Song(models.Model):
     title = models.CharField(max_length=50)
-    artist = models.CharField(max_length=20)
+    artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
     lyrics = models.TextField(null=False, blank=False)
     contributors = models.ManyToManyField(User, related_name='contributors', blank=True)
     genre = models.ManyToManyField(Genre)
@@ -46,4 +54,4 @@ class Rating(models.Model):
     def __str__(self):
         return f"{self.song.title}: {self.rating}"
 
-# Artist (Maybe)
+

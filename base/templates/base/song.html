@@ -59,7 +59,7 @@
         <hr>
         {% for user in contributors %}
             <div>
-                <p>@{{user.username}}</p>
+                <a href="{% url 'user-profile' song.creator.id %}">@{{user.username}}</a>
             </div>
         {% endfor %}
 
