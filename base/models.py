@@ -5,7 +5,8 @@ from django.db.models import Avg
 
 class User(AbstractUser):
     # avatar = models.ImageField()
-    pass
+    follower = models.ManyToManyField('self', blank=True, symmetrical=False,  related_name='followers')
+    follow = models.ManyToManyField('self', blank=True, symmetrical=False, related_name='following')
     
 
 class Genre(models.Model):
@@ -53,5 +54,4 @@ class Rating(models.Model):
 
     def __str__(self):
         return f"{self.song.title}: {self.rating}"
-
 

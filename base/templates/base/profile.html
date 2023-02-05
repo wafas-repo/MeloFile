@@ -4,6 +4,25 @@
 
 <h1>{{user.username}}</h1>
 
+<div>
+    <p>Followers: {{ num_followers }}  Following: {{num_following}} </p>
+</div>
+
+{% if user == request.user %}
+{% else %}
+    {% if is_following %}     
+        <form method="POST" action="{% url 'remove-follower' user.id %}">
+            {% csrf_token %}
+            <button type=submit>UnFollow</button>
+        </form>
+    {% else %}
+        <form method="POST" action="{% url 'add-follower' user.id %}">
+            {% csrf_token %}
+             <button  type=submit>Follow</button>
+        </form>
+    {% endif %}
+{% endif %}
+
 <div class="profile-container">
 
 

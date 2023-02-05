@@ -26,7 +26,28 @@ def userProfile(request, pk):
     songs = user.song_set.all()
     # comments = user.comment_set.all()
     # genres = Genre.objects.all()
-    context = {'user':user, 'songs': songs,}
+
+    followers = user.followers.all()
+    following = user.following.all()
+    if len(followers) == 0:
+        is_following = False
+
+    for follower in followers:
+        if follower == request.user:
+            is_following = True
+        else:
+            is_following = False
+
+    num_followers = len(followers)
+    number_of_following = len(following)
+
+    context = {
+        'user':user, 
+        'songs': songs, 
+        'is_following': is_following, 
+        'num_followers': num_followers,
+        "num_following": number_of_following
+        }
     return render(request, 'base/profile.html', context)
 
 def song_page(request, pk):
@@ -152,3 +173,21 @@ def rate(request, pk, rating):
     Rating.objects.filter(song=song, user=request.user).delete()
     song.ratings.create(user=request.user, rating=rating)
     return render(request, 'base/song.html')
+
+def add_follower(request, pk):
+    profile = User.objects.get(id=pk)
+    profile.followers.add(request.user)
+    curr_user = User.objects.get(id=request.user.id)
+    curr_user.following.add(profile)
+    return redirect('user-profile', profile.id)
+
+def remove_follower(request, pk):
+    profile = User.objects.get(id=pk)
+    profile.followers.remove(request.user)
+    curr_user = User.objects.get(id=request.user.id)
+    curr_user.following.remove(profile)
+
+    return redirect('user-profile', profile.id)
+   
+
+
