@@ -59,6 +59,9 @@ def song_page(request, pk):
     rating = Rating.objects.filter(song=song, user=request.user).first()
     song.user_rating = rating.rating if rating else 0
     rating_count = ratings.count()
+    is_favorite = False
+    if song.favorite.filter(id=request.user.id).exists():
+        is_favorite = True
     if request.method == 'POST':
         comment = Comment.objects.create(
             user=request.user,
@@ -66,7 +69,7 @@ def song_page(request, pk):
             comment=request.POST.get('comment')
         )
         return redirect('song', pk=song.id)
-    context = {'song': song, 'comments':comments, 'contributors':contributors, 'rating_count':rating_count}
+    context = {'song': song, 'comments':comments, 'contributors':contributors, 'rating_count':rating_count, 'is_favorite': is_favorite }
     return render(request, 'base/song.html', context)
 
 def createLyricPage(request):
@@ -81,6 +84,23 @@ def createLyricPage(request):
 
     context = {'form':form}
     return render(request, "base/song_form.html", context)
+
+def favorite_song(request, pk):
+    song = Song.objects.get(id=pk)
+    if song.favorite.filter(pk=request.user.id).exists():
+        song.favorite.remove(request.user)
+    else:
+        song.favorite.add(request.user)
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+def song_favorites_list(request):
+    user = request.user
+    favorite_songs = user.favorite.all()
+    context = {
+        'favorite_songs':favorite_songs
+    }
+    return render(request, 'base/favorite_songs.html', context)
+
 
 def login_view(request):
     if request.method == "POST":

@@ -26,6 +26,20 @@
     <h1>{{song.title}}</h1>
     <h3>{{song.artist}}</h3>
 
+    <div id="favorite-section">
+
+        {% if is_favorite  %}
+        <a href="{% url 'favorite' song.id %}">
+            <i class="fa fa-regualr fa-heart"></i>
+        </a>
+        {% else %}
+        <a href="{% url 'favorite' song.id %}">
+            <i class="far fa-regualr fa-heart"></i>
+        </a>
+        {% endif %}
+        
+    </div>
+
     <h5 class="card-title">Avg rating:
         <span class="fa fa-star {% if song.average_rating > 0 %} checked {% endif %}"></span>
         <span class="fa fa-star {% if song.average_rating > 1 %} checked {% endif %}"></span>

@@ -1,0 +1,11 @@
+{% extends 'main.html' %}
+
+{% block body %}
+
+<div>
+    {% for artist in artists %}
+        <span>{{ artist }}</span>
+    {% endfor %}
+</div>
+
+{% endblock %}

@@ -7,6 +7,12 @@ class User(AbstractUser):
     # avatar = models.ImageField()
     follower = models.ManyToManyField('self', blank=True, symmetrical=False,  related_name='followers')
     follow = models.ManyToManyField('self', blank=True, symmetrical=False, related_name='following')
+
+    # def count_followers(self):
+    #     return self.followers.count()
+    
+    # def count_following(self):
+    #     return User.objects.filter(followers=self).count()
     
 
 class Genre(models.Model):
@@ -30,6 +36,7 @@ class Song(models.Model):
     creator = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateField(auto_now_add=True)
+    favorite = models.ManyToManyField(User, related_name='favorite', blank=True)
 
     def average_rating(self) -> float:
         return Rating.objects.filter(song=self).aggregate(Avg("rating"))["rating__avg"] or 0
