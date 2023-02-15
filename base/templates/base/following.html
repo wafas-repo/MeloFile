@@ -1,0 +1,20 @@
+{% extends 'main.html' %}
+
+{% block body %}
+
+<div>
+{% for song in songs %}
+    <a href="{% url 'user-profile' song.creator.id %}">@{{song.creator}}</a> Just posted : 
+    <h5><a href="{% url 'song' song.id %}">{{song.title}}</a> -- {{song.artist}} </h5>
+    <hr>
+{% endfor %}
+{% for comment in following_comments %}
+    <div>
+        <small> <a href="{% url 'user-profile' comment.user.id %}">@{{comment.user}}</a>   {{comment.date_added|timesince}}</small>
+        <small>commented on "{{comment.song.title}}"</small>
+    </div>
+    <hr>
+{% endfor %}
+</div>
+
+{% endblock %}

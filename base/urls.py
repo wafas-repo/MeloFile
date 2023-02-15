@@ -14,6 +14,7 @@ urlpatterns = [
     path("<str:pk>/followers/remove", views.remove_follower, name="remove-follower"),
     path("favorite/<str:pk>/", views.favorite_song, name="favorite"),
     path("favorites/", views.song_favorites_list, name="favorite-songs-list"),
+    path("<str:pk>/following", views.following, name="following"),
 
     path("login", views.login_view, name="login"),
     path("logout", views.logout_view, name="logout"),

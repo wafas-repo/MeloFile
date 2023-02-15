@@ -209,5 +209,13 @@ def remove_follower(request, pk):
 
     return redirect('user-profile', profile.id)
    
+def following(request, pk):
+    uid = User.objects.get(id=pk)
+    following = uid.following.all()
+    songs = Song.objects.filter(creator__in=following).order_by('-created')
+    following_comments = Comment.objects.filter(user__in=following).order_by('-date_added')
 
-
+    return render(request, "base/following.html", {
+        "songs":songs,
+        "following_comments": following_comments
+    })
