@@ -11,6 +11,7 @@ from . forms import SongForm
 # Create your views here.
 
 def home(request):
+    latest = Song.objects.all()[::-1][0:5]
     q = request.GET.get('q') if request.GET.get('q') != None else ''
     songs =  Song.objects.filter(
         Q(title__icontains=q) |
@@ -18,7 +19,7 @@ def home(request):
         Q(artist__name__icontains=q)
         )
     genres= Genre.objects.all()
-    context = {'songs': songs, 'genres': genres}
+    context = {'songs': songs, 'genres': genres, 'latest':latest}
     return render(request, 'base/home.html', context )
 
 def userProfile(request, pk):

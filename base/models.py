@@ -35,7 +35,7 @@ class Song(models.Model):
     genre = models.ManyToManyField(Genre)
     creator = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     updated = models.DateTimeField(auto_now=True)
-    created = models.DateField(auto_now_add=True)
+    created = models.DateField(auto_now_add=True,null=True)
     favorite = models.ManyToManyField(User, related_name='favorite', blank=True)
 
     def average_rating(self) -> float:

@@ -40,17 +40,28 @@
 </div>
 <div class="home-container">
 
-    <div>
+    <!-- <div>
         {% include 'base/genres_component.html' %}
-    </div>
+    </div> -->
 
     <div>
 
         <a href="{% url 'add-song' %}">Add Song</a>
 
-        <div>
+        <h1>TOP LYRICS</h1>
+        <hr>
+
+        <h1>LATEST</h1>
+
+        {% for song in latest %}
+            <div>
+                <h5> <a href="{% url 'song' song.id %}">{{song.title}}</a> -- {{song.artist}} -- {{song.created}} </h5>
+            </div>
+        {% endfor %}
+
+        <!-- <div>
             {% include 'base/feed_component.html' %}
-        </div>
+        </div> -->
 
     </div>
 
