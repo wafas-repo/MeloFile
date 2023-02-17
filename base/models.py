@@ -55,7 +55,7 @@ class Comment(models.Model):
         return '%s - %s' % (self.song.title, self.user)# pylint: disable=maybe-no-member
 
 class Rating(models.Model):
-    song = models.ForeignKey(Song, on_delete=models.CASCADE, related_name="ratings")
+    song = models.ForeignKey(Song, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     rating = models.IntegerField(default=0)
 

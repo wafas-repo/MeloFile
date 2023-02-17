@@ -1,8 +1,10 @@
 
+
       
         {% if user.is_authenticated %}
 
             <a href="{% url 'logout' %}">Log Out</a>
+            <a href="{% url 'user-profile' user.id %}">{{user.username}}</a>
 
         {% else %}
            

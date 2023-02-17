@@ -9,7 +9,7 @@
     }
 </style>
 
-<div>
+<!-- <div>
     All Artists : <a href="">A</a> 
                   <a href="">B</a> 
                   <a href="">C</a> 
@@ -37,7 +37,7 @@
                   <a href="">Y</a> 
                   <a href="">Z</a> 
                   <hr>
-</div>
+</div> -->
 <div class="home-container">
 
     <!-- <div>
@@ -48,8 +48,17 @@
 
         <a href="{% url 'add-song' %}">Add Song</a>
 
+       
+
         <h1>TOP LYRICS</h1>
         <hr>
+
+        {% for song in ratings %}
+            <div>
+                <h5> <a href="{% url 'song' song.id %}">{{song.title}}</a> -- {{song.artist}} -- {{song.average_rating}}</h5>
+            </div>
+        {% endfor %}
+
 
         <h1>LATEST</h1>
 
@@ -59,9 +68,11 @@
             </div>
         {% endfor %}
 
-        <!-- <div>
+        <h1>ALL SONGS</h1>
+
+        <div>
             {% include 'base/feed_component.html' %}
-        </div> -->
+        </div>
 
     </div>
 

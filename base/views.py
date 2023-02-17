@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.db.models import Q
+from django.db.models import Avg
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
@@ -11,7 +12,6 @@ from . forms import SongForm
 # Create your views here.
 
 def home(request):
-    latest = Song.objects.all()[::-1][0:5]
     q = request.GET.get('q') if request.GET.get('q') != None else ''
     songs =  Song.objects.filter(
         Q(title__icontains=q) |
@@ -19,7 +19,9 @@ def home(request):
         Q(artist__name__icontains=q)
         )
     genres= Genre.objects.all()
-    context = {'songs': songs, 'genres': genres, 'latest':latest}
+    latest = Song.objects.all()[::-1][0:5]
+    ratings = Song.objects.annotate(avg_rate=(Avg("rating__rating"))).order_by('avg_rate')[::-1][:5]
+    context = {'songs': songs, 'genres': genres, 'latest':latest, 'ratings': ratings}
     return render(request, 'base/home.html', context )
 
 def userProfile(request, pk):
