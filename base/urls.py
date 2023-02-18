@@ -15,6 +15,8 @@ urlpatterns = [
     path("favorite/<str:pk>/", views.favorite_song, name="favorite"),
     path("favorites/", views.song_favorites_list, name="favorite-songs-list"),
     path("<str:pk>/following", views.following, name="following"),
+    path("artists-index/<str:letter>", views.artists_index, name="artists-index"),
+    path("artists/<str:artist>", views.artist_page, name="artists-page"),
 
     path("login", views.login_view, name="login"),
     path("logout", views.logout_view, name="logout"),

@@ -1,0 +1,14 @@
+{% extends 'main.html' %}
+
+{% block body %}
+
+<h1>Here are your artist results for {{letter}}</h1>
+
+{% for artist in artists_list %}
+
+    <a href="{% url 'artists-page' artist.name %}"><li>{{artist}}</li></a>
+
+{% endfor %}
+
+
+{% endblock %}

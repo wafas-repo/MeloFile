@@ -222,3 +222,13 @@ def following(request, pk):
         "songs":songs,
         "following_comments": following_comments
     })
+
+def artists_index(request, letter):
+    artists_list = Artist.objects.filter(name__istartswith=letter).order_by('name')
+    context = {'letter': letter, 'artists_list':artists_list}
+    return render(request, 'base/artists_index.html', context)
+
+def artist_page(request, artist):
+    artist_songs = Song.objects.filter(artist__name=artist).annotate(avg_rate=(Avg("rating__rating"))).order_by('avg_rate')[::-1][:5]
+    context = {'artist':artist, 'artist_songs':artist_songs }
+    return render(request, 'base/artists_page.html', context)

@@ -3,8 +3,14 @@
 {% block body %}
 
 <div>
-    {% for artist in artists %}
-        <span>{{ artist }}</span>
+    <h1>{{artist}}</h1>
+
+    <h2>Popular {{artist}} songs</h2>
+
+    {% for song in artist_songs %}
+
+        <h5><a href="{% url 'song' song.id %}">{{song.title}}</a> -- {{song.artist}} </h5>
+
     {% endfor %}
 </div>
 
