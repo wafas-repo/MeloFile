@@ -62,3 +62,14 @@ class Rating(models.Model):
     def __str__(self):
         return f"{self.song.title}: {self.rating}"
 
+class EditRequest(models.Model):
+    from_user = models.ForeignKey(User, related_name='from_user', on_delete=models.CASCADE)
+    to_user = models.ForeignKey(User, related_name='to_user', on_delete=models.CASCADE)
+    song = models.ForeignKey(Song, on_delete=models.CASCADE, default=None)
+    edit = models.TextField(default=None)
+    pending = models.BooleanField(default=True)
+    approved = models.BooleanField(default=False)
+
+    def __str__(self):
+        return 'from: %s - to: %s' % (self.from_user.username, self.to_user.username)
+

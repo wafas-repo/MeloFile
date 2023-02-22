@@ -1,0 +1,73 @@
+{% extends 'main.html' %}
+
+{% block body %}
+
+   <h1>{{requestobj.from_user}} Requested an edit for Song {{requestobj.song.title}}</h1> 
+
+   <span id="pre">{{requestobj.song.lyrics}}</span> <span id="display"></span>
+   <span id="post">{{requestobj.edit}}</span>
+    <hr>
+    {% if requestobj.pending %}
+        {% if request.user == requestobj.to_user %}
+            <form method="POST" action="{% url 'approve-request' requestobj.id %}">
+                {%  csrf_token %}
+                <button type="submit" id="approve-btn">Approve</button>
+            </form>
+            <a id="edit_req_cancel_btn" href="{% url 'requests' %}">Cancel</a>
+            <form method="POST" action="{% url 'deny-request' requestobj.id %}">
+                {%  csrf_token %}
+                <button type="submit" id="deny-btn">Deny</button>
+            </form>
+        {% else %}
+            <div id="request-result">
+                <p>PENDING</p>
+            </div>
+        {% endif %}
+
+    {% else %}
+
+        {% if requestobj.approved %}
+            <div id="request-result">
+                <p>APPROVED</p>
+            </div>
+        {% else %}
+            <div id="request-result">
+                <p>DENIED</p>
+            </div>
+        {% endif %}
+
+    {% endif %}
+
+
+
+   <script>
+    const one = document.getElementById('pre').innerHTML,
+        other = document.getElementById('post').innerHTML,
+        color = '';
+
+        document.getElementById('post').style.display = 'none';
+
+        console.log(one, other)
+        
+        let span = null;
+    
+        const diff = Diff.diffChars(one, other),
+        display = document.getElementById('display'),
+        fragment = document.createDocumentFragment();
+    
+        diff.forEach((part) => {
+            // green for additions, red for deletions
+            // grey for common parts
+            const color = part.added ? 'green' :
+                part.removed ? 'red' : 'white';
+            span = document.createElement('span');
+            span.style.backgroundColor = color;
+            span.appendChild(document
+                .createTextNode(part.value));
+            fragment.appendChild(span);
+        });
+    
+        display.appendChild(fragment);
+    </script>
+{% endblock %}
+

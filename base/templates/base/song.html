@@ -1,4 +1,5 @@
 {% extends 'main.html' %}
+{% load static %}
 
 {% block body %}
 
@@ -62,12 +63,18 @@
             <i class="fa fa-star {% if song.user_rating > 1 %} checked {% endif %}" title="Rate 2"></i></li>
         <li onclick="rate(1, {{ song.id }})">
             <i class="fa fa-star {% if song.user_rating > 0 %} checked {% endif %}" title="Rate 1"></i></li>
-      </ul>
+    </ul>
 
+    <hr>
     
-
+    {% if song.creator != request.user %}
+        <button id="editReqBtn" class="edit_Request_Button"  data-song_id="{{ song.id }}">Edit Request</button>
+    {% endif %}
     
-    <p>{{song.lyrics}}</p>
+    <div id="song-lyrics-{{ song.id }}">
+        <p id="edit" class="lyric-content">{{ song.lyrics }}</p> 
+    </div>
+    
 
     <div class="contributors-container">
 

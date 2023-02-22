@@ -16,6 +16,8 @@
 
         <a href="{% url 'following' request.user.id %}">Feed</a>
 
+        <a href="{% url 'requests' %}">Requests</a>
+
         <form action="{% url 'home' %}" method="GET" >
             <input type="text" name="q" placeholder="Search Lyrics...">
         </form>

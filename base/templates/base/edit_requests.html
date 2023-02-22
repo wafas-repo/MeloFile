@@ -1,0 +1,20 @@
+{% extends 'main.html' %}
+
+{% block body %}
+
+    {% for request in received_requests %}
+        <div>
+            <p>{{request.from_user}} requested an edit for song {{ request.song.title }} -- {{request.song.lyrics}} -- {{ request.edit }}</p>
+            <a href="{% url 'request-view' request.id %}">View</a>
+        </div>
+    {% endfor %}
+    
+    {% for request in sent_requests %}
+        <div>
+            <p> You requested an edit for song {{ request.song.title }} -- {{request.song.lyrics}} -- {{ request.edit }}</p>
+            <a href="{% url 'request-view' request.id %}">View</a>
+        </div>
+    {% endfor %}
+
+
+{% endblock %}

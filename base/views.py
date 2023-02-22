@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect
 from django.db.models import Q
+import json
 from django.db.models import Avg
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
-from . models import Song, Genre, Comment, User, Rating, Artist
+from django.views.decorators.csrf import csrf_exempt
+from . models import Song, Genre, Comment, User, Rating, Artist, EditRequest
 from . forms import SongForm
 
 
@@ -232,3 +234,52 @@ def artist_page(request, artist):
     artist_songs = Song.objects.filter(artist__name=artist).annotate(avg_rate=(Avg("rating__rating"))).order_by('avg_rate')[::-1][:5]
     context = {'artist':artist, 'artist_songs':artist_songs }
     return render(request, 'base/artists_page.html', context)
+
+@csrf_exempt
+def edit_request(request, pk):
+    song = Song.objects.get(id=pk)
+    from_user = request.user
+    to_user = song.creator
+    if request.method == "PUT":
+        data = json.loads(request.body)
+        if data.get("edited_content") is not None:
+            edit_request = EditRequest.objects.create(song=song, from_user=from_user, to_user=to_user, edit=data.get("edited_content"))
+        else:
+            print('Nothing')
+    return HttpResponse(status=204)
+
+def requests(request):
+    received_requests = EditRequest.objects.filter(to_user=request.user)
+    sent_requests = EditRequest.objects.filter(from_user=request.user)
+    return render(request, 'base/edit_requests.html', { 'received_requests':received_requests, 'sent_requests':sent_requests })
+
+def request_view(request, pk):
+    requestobj = EditRequest.objects.get(id=pk)
+    return render(request, 'base/request_view.html', {'requestobj':requestobj })
+
+@csrf_exempt
+def approve_request(request, pk):
+    requestobj =  EditRequest.objects.get(id=pk)
+    if request.method == "POST":
+        requestobj.pending = False
+        requestobj.approved = True
+        requestobj.save()
+    song_obj = Song.objects.get(title=requestobj.song.title)
+    if request.method == "PUT":
+        data = json.loads(request.body)
+        if data.get("content") is not None:
+            song_obj.lyrics = data["content"]
+            song_obj.contributors.add(requestobj.from_user)
+            song_obj.save()
+        else:
+            print("Error received None")
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+@csrf_exempt
+def deny_request(request, pk):
+    requestobj =  EditRequest.objects.get(id=pk)
+    if request.method == "POST":
+        requestobj.pending = False
+        requestobj.approved = False
+        requestobj.save()
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])

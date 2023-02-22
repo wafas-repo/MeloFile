@@ -17,6 +17,11 @@ urlpatterns = [
     path("<str:pk>/following", views.following, name="following"),
     path("artists-index/<str:letter>", views.artists_index, name="artists-index"),
     path("artists/<str:artist>", views.artist_page, name="artists-page"),
+    path("edit-request/<str:pk>", views.edit_request, name="edit-request"),
+    path("requests", views.requests, name="requests"),
+    path("request/<str:pk>", views.request_view, name="request-view"),
+    path("approve-request/<str:pk>", views.approve_request, name="approve-request"),
+    path("deny-request/<str:pk>", views.deny_request, name="deny-request"),
 
     path("login", views.login_view, name="login"),
     path("logout", views.logout_view, name="logout"),
