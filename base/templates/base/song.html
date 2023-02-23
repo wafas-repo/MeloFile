@@ -27,19 +27,22 @@
     <h1>{{song.title}}</h1>
     <h3>{{song.artist}}</h3>
 
-    <div id="favorite-section">
+    {% if request.user.is_authenticated %}
 
-        {% if is_favorite  %}
-        <a href="{% url 'favorite' song.id %}">
-            <i class="fa fa-regualr fa-heart"></i>
-        </a>
-        {% else %}
-        <a href="{% url 'favorite' song.id %}">
-            <i class="far fa-regualr fa-heart"></i>
-        </a>
-        {% endif %}
-        
-    </div>
+        <div id="favorite-section">
+
+            {% if is_favorite  %}
+            <a href="{% url 'favorite' song.id %}">
+                <i class="fa fa-regualr fa-heart"></i>
+            </a>
+            {% else %}
+            <a href="{% url 'favorite' song.id %}">
+                <i class="far fa-regualr fa-heart"></i>
+            </a>
+            {% endif %}
+            
+        </div>
+    {% endif %}
 
     <h5 class="card-title">Avg rating:
         <span class="fa fa-star {% if song.average_rating > 0 %} checked {% endif %}"></span>
@@ -51,24 +54,26 @@
     </h5> 
 
 
-
-    <ul class="btn btn-light list-inline rating-list">
-        <li onclick="rate(5, {{ song.id }})">
-            <i class="fa fa-star {% if song.user_rating > 4 %} checked {% endif %}" title="Rate 5"></i></li>
-        <li onclick="rate(4, {{ song.id }})">
-            <i class="fa fa-star {% if song.user_rating > 3 %} checked {% endif %}" title="Rate 4"></i></li>
-        <li onclick="rate(3, {{ song.id }})">
-            <i class="fa fa-star {% if song.user_rating > 2 %} checked {% endif %}" title="Rate 3"></i></li>
-        <li onclick="rate(2, {{ song.id }})">
-            <i class="fa fa-star {% if song.user_rating > 1 %} checked {% endif %}" title="Rate 2"></i></li>
-        <li onclick="rate(1, {{ song.id }})">
-            <i class="fa fa-star {% if song.user_rating > 0 %} checked {% endif %}" title="Rate 1"></i></li>
-    </ul>
-
+    {% if request.user.is_authenticated %}
+        <ul class="btn btn-light list-inline rating-list">
+            <li onclick="rate(5, {{ song.id }})">
+                <i class="fa fa-star {% if song.user_rating > 4 %} checked {% endif %}" title="Rate 5"></i></li>
+            <li onclick="rate(4, {{ song.id }})">
+                <i class="fa fa-star {% if song.user_rating > 3 %} checked {% endif %}" title="Rate 4"></i></li>
+            <li onclick="rate(3, {{ song.id }})">
+                <i class="fa fa-star {% if song.user_rating > 2 %} checked {% endif %}" title="Rate 3"></i></li>
+            <li onclick="rate(2, {{ song.id }})">
+                <i class="fa fa-star {% if song.user_rating > 1 %} checked {% endif %}" title="Rate 2"></i></li>
+            <li onclick="rate(1, {{ song.id }})">
+                <i class="fa fa-star {% if song.user_rating > 0 %} checked {% endif %}" title="Rate 1"></i></li>
+        </ul>
+    {% endif %}
     <hr>
     
-    {% if song.creator != request.user %}
-        <button id="editReqBtn" class="edit_Request_Button"  data-song_id="{{ song.id }}">Edit Request</button>
+    {% if request.user.is_authenticated %}
+        {% if song.creator != request.user %}
+            <button id="editReqBtn" class="edit_Request_Button"  data-song_id="{{ song.id }}">Edit Request</button>
+        {% endif %}
     {% endif %}
     
     <div id="song-lyrics-{{ song.id }}">
@@ -98,7 +103,7 @@
                 {% if request.user == comment.user %}
                     <a href="{% url 'delete-comment' comment.id %}">Delete</a>
                 {% endif %}
-                <small>@{{comment.user}} {{comment.date_added|timesince}} ago </small>
+                <small><a href="{% url 'user-profile' comment.user.id %}">@{{comment.user}}</a> {{comment.date_added|timesince}} ago </small>
                 <p>{{comment.comment}}</p>
                 <hr>
             </div>

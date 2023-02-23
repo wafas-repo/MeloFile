@@ -2,24 +2,28 @@
 
 {% block body %}
 
-<h1>{{user.username}}</h1>
+<h1>{{profile.username}}</h1>
 
 <div>
     <p>Followers: {{ num_followers }}  Following: {{num_following}} </p>
 </div>
 
-{% if user == request.user %}
+{% if profile.username == request.user %}
 {% else %}
     {% if is_following %}     
-        <form method="POST" action="{% url 'remove-follower' user.id %}">
+        <form method="POST" action="{% url 'remove-follower' profile.id %}">
             {% csrf_token %}
             <button type=submit>UnFollow</button>
         </form>
     {% else %}
-        <form method="POST" action="{% url 'add-follower' user.id %}">
+        {% if user.is_authenticated %}
+        <form method="POST" action="{% url 'add-follower' profile.id %}">
             {% csrf_token %}
              <button  type=submit>Follow</button>
         </form>
+        {% else %}
+        <a href="{% url 'login' %}"><button type="submit">Follow</button></a>
+        {% endif %}
     {% endif %}
 {% endif %}
 

@@ -4,19 +4,26 @@
         {% if user.is_authenticated %}
 
             <a href="{% url 'logout' %}">Log Out</a>
+
             <a href="{% url 'user-profile' user.id %}">{{user.username}}</a>
+
+            <a href="{% url 'favorite-songs-list' %}">My Favorites</a>
+
+            <a href="{% url 'following' request.user.id %}">Feed</a>
+
+            <a href="{% url 'requests' %}">Requests</a>
+
+            
 
         {% else %}
            
         <a  href="{% url 'login' %}">Log In</a>
+
+        <a href="{% url 'add-song' %}">Add Song</a>
      
         {% endif %}
 
-        <a href="{% url 'favorite-songs-list' %}">My Favorites</a>
-
-        <a href="{% url 'following' request.user.id %}">Feed</a>
-
-        <a href="{% url 'requests' %}">Requests</a>
+        
 
         <form action="{% url 'home' %}" method="GET" >
             <input type="text" name="q" placeholder="Search Lyrics...">

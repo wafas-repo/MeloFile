@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 import json
 from django.db.models import Avg
@@ -19,7 +21,8 @@ def home(request):
         Q(title__icontains=q) |
         Q(genre__name__icontains=q) | 
         Q(artist__name__icontains=q)
-        )
+        ).distinct()
+    print(songs)
     genres= Genre.objects.all()
     latest = Song.objects.all()[::-1][0:5]
     ratings = Song.objects.annotate(avg_rate=(Avg("rating__rating"))).order_by('avg_rate')[::-1][:5]
@@ -27,13 +30,13 @@ def home(request):
     return render(request, 'base/home.html', context )
 
 def userProfile(request, pk):
-    user = User.objects.get(id=pk)
-    songs = user.song_set.all()
+    profile = User.objects.get(id=pk)
+    songs = profile.song_set.all()
     # comments = user.comment_set.all()
     # genres = Genre.objects.all()
 
-    followers = user.followers.all()
-    following = user.following.all()
+    followers = profile.followers.all()
+    following = profile.following.all()
     if len(followers) == 0:
         is_following = False
 
@@ -47,7 +50,7 @@ def userProfile(request, pk):
     number_of_following = len(following)
 
     context = {
-        'user':user, 
+        'profile':profile, 
         'songs': songs, 
         'is_following': is_following, 
         'num_followers': num_followers,
@@ -60,9 +63,10 @@ def song_page(request, pk):
     comments = song.comments.all().order_by('-date_added')
     contributors = song.contributors.all()
     song.contributors.add(song.creator)
+    if request.user.is_authenticated:
+        rating = Rating.objects.filter(song=song, user=request.user).first()
+        song.user_rating = rating.rating if rating else 0
     ratings = Rating.objects.filter(song=song)
-    rating = Rating.objects.filter(song=song, user=request.user).first()
-    song.user_rating = rating.rating if rating else 0
     rating_count = ratings.count()
     is_favorite = False
     if song.favorite.filter(id=request.user.id).exists():
@@ -77,6 +81,7 @@ def song_page(request, pk):
     context = {'song': song, 'comments':comments, 'contributors':contributors, 'rating_count':rating_count, 'is_favorite': is_favorite }
     return render(request, 'base/song.html', context)
 
+@login_required(login_url='login')
 def createLyricPage(request):
     form = SongForm()
     if request.method == 'POST':
@@ -158,7 +163,7 @@ def register(request):
     else:
         return render(request, "base/register.html")
 
-
+@login_required(login_url='login')
 def editLyrics(request, pk):
     song = Song.objects.get(id=pk)
     form = SongForm(instance=song)
@@ -171,6 +176,7 @@ def editLyrics(request, pk):
     context = {'form':form}
     return render(request, "base/song_form.html", context)
 
+@login_required(login_url='login')
 def deleteSong(request, pk):
     song = Song.objects.get(id=pk)
 
@@ -181,7 +187,8 @@ def deleteSong(request, pk):
         song.delete()
         return redirect('home')
     return render(request, 'base/delete.html', {'obj': song})
-
+    
+@login_required(login_url='login')
 def deleteComment(request, pk):
     comment = Comment.objects.get(id=pk)
 
@@ -193,12 +200,14 @@ def deleteComment(request, pk):
         return redirect('home')
     return render(request, 'base/delete.html', {'obj': comment})
 
+@login_required(login_url='login')
 def rate(request, pk, rating):
     song = Song.objects.get(id=pk)
     Rating.objects.filter(song=song, user=request.user).delete()
     song.ratings.create(user=request.user, rating=rating)
     return render(request, 'base/song.html')
 
+@login_required(login_url='login')
 def add_follower(request, pk):
     profile = User.objects.get(id=pk)
     profile.followers.add(request.user)
@@ -206,6 +215,7 @@ def add_follower(request, pk):
     curr_user.following.add(profile)
     return redirect('user-profile', profile.id)
 
+@login_required(login_url='login')
 def remove_follower(request, pk):
     profile = User.objects.get(id=pk)
     profile.followers.remove(request.user)
@@ -236,6 +246,7 @@ def artist_page(request, artist):
     return render(request, 'base/artists_page.html', context)
 
 @csrf_exempt
+@login_required(login_url='login')
 def edit_request(request, pk):
     song = Song.objects.get(id=pk)
     from_user = request.user
@@ -258,6 +269,7 @@ def request_view(request, pk):
     return render(request, 'base/request_view.html', {'requestobj':requestobj })
 
 @csrf_exempt
+@login_required(login_url='login')
 def approve_request(request, pk):
     requestobj =  EditRequest.objects.get(id=pk)
     if request.method == "POST":
@@ -276,6 +288,7 @@ def approve_request(request, pk):
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
 @csrf_exempt
+@login_required(login_url='login')
 def deny_request(request, pk):
     requestobj =  EditRequest.objects.get(id=pk)
     if request.method == "POST":
