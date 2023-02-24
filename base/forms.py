@@ -5,4 +5,4 @@ class SongForm(ModelForm):
     class Meta:
         model = Song
         fields = '__all__'
-        exclude = ['creator', 'contributors']
+        exclude = ['creator', 'contributors', 'favorite']

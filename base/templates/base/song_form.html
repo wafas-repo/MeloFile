@@ -5,7 +5,33 @@
 <div>
     <form method="POST" action="">
         {% csrf_token %}
-        {{ form.as_p }}
+        <div>
+            <label for="">Title</label>
+            {{form.title}}
+        </div>
+
+        <div>
+            <label for="">Artist</label>
+            <input required type="text" name="artist" list="artist-list"/>
+            <datalist id="artist-list">
+                <select name="" id="song_artist">
+                    {% for artist in artists %}
+                        <option value="{{artist.name}}">{{artist.name}}</option>
+                    {% endfor %}
+                </select>
+            </datalist>   
+        </div>
+
+        <div>
+            <label for="">Lyrics</label>
+            {{form.lyrics}}
+        </div>
+
+        <div>
+            <label for="">Genre</label>
+            {{form.genre}}
+        </div>
+        
         <input type="submit" value="Submit" />
     </form>
 </div>

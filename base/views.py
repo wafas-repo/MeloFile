@@ -84,15 +84,27 @@ def song_page(request, pk):
 @login_required(login_url='login')
 def createLyricPage(request):
     form = SongForm()
+    artists = Artist.objects.all()
     if request.method == 'POST':
-        form = SongForm(request.POST)
-        if form.is_valid():
-            song = form.save(commit=False)
-            song.creator = request.user
-            song.save()
-            return redirect('home')
+        artist_name = request.POST.get('artist')
+        artist, created = Artist.objects.get_or_create(name=artist_name)
 
-    context = {'form':form}
+        song_obj , created = Song.objects.get_or_create(
+            creator=request.user,
+            artist=artist,
+            title=request.POST.get('title'),
+            lyrics=request.POST.get('lyrics'),
+        )
+
+        print(request.POST.getlist('genre'))
+
+        genres = request.POST.getlist('genre')
+        for genre in genres:
+            print(genre)
+            song_obj.genre.add(genre)
+        return redirect('home')
+
+    context = {'form':form, 'artists':artists}
     return render(request, "base/song_form.html", context)
 
 def favorite_song(request, pk):
