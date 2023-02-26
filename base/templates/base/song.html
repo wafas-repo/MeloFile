@@ -3,29 +3,14 @@
 
 {% block body %}
 
-<style>
-    .rating-list li {
-      float: right;
-      color: #ddd;
-      padding: 10px 5px;
-    }
-
-    .rating-list li:hover,
-    .rating-list li:hover ~ li {
-      color: orange;
-    }
-
-    .rating-list {
-      display: inline-block;
-      list-style: none;
-    }
-    .checked {
-        color: orange;
-    }
-</style>
 
     <h1>{{song.title}}</h1>
     <h3>{{song.artist}}</h3>
+
+    {% if request.user == song.creator %}
+        <a href="{% url 'edit-song' song.id  %}">Edit</a>
+        <a href="{% url 'delete-song' song.id  %}">Delete</a>
+    {% endif %}
 
     {% if request.user.is_authenticated %}
 
@@ -50,7 +35,7 @@
         <span class="fa fa-star {% if song.average_rating > 2 %} checked {% endif %}"></span>
         <span class="fa fa-star {% if song.average_rating > 3 %} checked {% endif %}" ></span>
         <span class="fa fa-star {% if song.average_rating > 4 %} checked {% endif %}"></span>
-        <span>({{rating_count}} ratings)</span>
+        <span>({{song.average_rating|floatformat:"0"}}/5 {{rating_count}} ratings)</span>
     </h5> 
 
 
@@ -80,6 +65,9 @@
         <p id="edit" class="lyric-content">{{ song.lyrics }}</p> 
     </div>
     
+    <div>
+        <p>Genres: {% for genre in song.genre.all %}{{ genre }}{% endfor %}</p>
+    </div>
 
     <div class="contributors-container">
 
@@ -121,19 +109,5 @@
     </div>
     {% endif %}
 
-    <script>
-        const rate = (rating, song_id) => {
-            fetch(`/rate/${song_id}/${rating}/`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }).then(rest => {
-                window.location.reload();
-                // you may want to update the rating here
-                // to simplify stuff, I just reload the page
-            })
-        }
-    </script>
 
 {% endblock %}

@@ -12,7 +12,7 @@
 
         <div>
             <label for="">Artist</label>
-            <input required type="text" name="artist" list="artist-list"/>
+            <input required type="text" value="{{song.artist}}" name="artist" list="artist-list"/>
             <datalist id="artist-list">
                 <select name="" id="song_artist">
                     {% for artist in artists %}

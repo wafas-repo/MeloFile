@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 import json
 from django.db.models import Avg
+from django.core.paginator import Paginator
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
@@ -22,11 +23,13 @@ def home(request):
         Q(genre__name__icontains=q) | 
         Q(artist__name__icontains=q)
         ).distinct()
-    print(songs)
+    page = Paginator(songs, 7)
+    page_list = request.GET.get('page')
+    page = page.get_page(page_list)
     genres= Genre.objects.all()
     latest = Song.objects.all()[::-1][0:5]
-    ratings = Song.objects.annotate(avg_rate=(Avg("rating__rating"))).order_by('avg_rate')[::-1][:5]
-    context = {'songs': songs, 'genres': genres, 'latest':latest, 'ratings': ratings}
+    ratings = Song.objects.annotate(avg_rate=(Avg("ratings__rating"))).order_by('avg_rate')[::-1][:5]
+    context = {'genres': genres, 'latest':latest, 'ratings': ratings, 'page':page}
     return render(request, 'base/home.html', context )
 
 def userProfile(request, pk):
@@ -96,15 +99,32 @@ def createLyricPage(request):
             lyrics=request.POST.get('lyrics'),
         )
 
-        print(request.POST.getlist('genre'))
-
         genres = request.POST.getlist('genre')
         for genre in genres:
-            print(genre)
             song_obj.genre.add(genre)
         return redirect('home')
 
     context = {'form':form, 'artists':artists}
+    return render(request, "base/song_form.html", context)
+
+@login_required(login_url='login')
+def editLyrics(request, pk):
+    song = Song.objects.get(id=pk)
+    form = SongForm(instance=song)
+
+    if request.method == 'POST':
+        artist_name = request.POST.get('artist')
+        artist, created = Artist.objects.get_or_create(name=artist_name)
+        song.title = request.POST.get('title')
+        song.artist = artist
+        song.lyrics = request.POST.get('lyrics')
+        song.genre.clear()
+        genres = request.POST.getlist('genre')
+        for genre in genres:
+            song.genre.add(genre)
+        song.save()
+        return redirect('home')
+    context = {'form':form, 'song':song}
     return render(request, "base/song_form.html", context)
 
 def favorite_song(request, pk):
@@ -175,18 +195,7 @@ def register(request):
     else:
         return render(request, "base/register.html")
 
-@login_required(login_url='login')
-def editLyrics(request, pk):
-    song = Song.objects.get(id=pk)
-    form = SongForm(instance=song)
 
-    if request.method == 'POST':
-        form = SongForm(request.POST, instance=song)
-        if form.is_valid():
-            form.save()
-            return redirect('home')
-    context = {'form':form}
-    return render(request, "base/song_form.html", context)
 
 @login_required(login_url='login')
 def deleteSong(request, pk):
@@ -272,8 +281,8 @@ def edit_request(request, pk):
     return HttpResponse(status=204)
 
 def requests(request):
-    received_requests = EditRequest.objects.filter(to_user=request.user)
-    sent_requests = EditRequest.objects.filter(from_user=request.user)
+    received_requests = EditRequest.objects.filter(to_user=request.user).order_by('-created')
+    sent_requests = EditRequest.objects.filter(from_user=request.user).order_by('-created')
     return render(request, 'base/edit_requests.html', { 'received_requests':received_requests, 'sent_requests':sent_requests })
 
 def request_view(request, pk):
@@ -291,7 +300,9 @@ def approve_request(request, pk):
     song_obj = Song.objects.get(title=requestobj.song.title)
     if request.method == "PUT":
         data = json.loads(request.body)
+        print(data)
         if data.get("content") is not None:
+            print(data.get("content"))
             song_obj.lyrics = data["content"]
             song_obj.contributors.add(requestobj.from_user)
             song_obj.save()

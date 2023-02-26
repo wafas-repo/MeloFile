@@ -55,7 +55,7 @@ class Comment(models.Model):
         return '%s - %s' % (self.song.title, self.user)# pylint: disable=maybe-no-member
 
 class Rating(models.Model):
-    song = models.ForeignKey(Song, on_delete=models.CASCADE)
+    song = models.ForeignKey(Song, on_delete=models.CASCADE, related_name="ratings")
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     rating = models.IntegerField(default=0)
 
@@ -69,6 +69,10 @@ class EditRequest(models.Model):
     edit = models.TextField(default=None)
     pending = models.BooleanField(default=True)
     approved = models.BooleanField(default=False)
+    created = models.DateTimeField(auto_now_add=True,null=True)
+
+    class Meta:
+        ordering = ['-created']
 
     def __str__(self):
         return 'from: %s - to: %s' % (self.from_user.username, self.to_user.username)

@@ -11,7 +11,7 @@
         {% if request.user == requestobj.to_user %}
             <form method="POST" action="{% url 'approve-request' requestobj.id %}">
                 {%  csrf_token %}
-                <button type="submit" id="approve-btn">Approve</button>
+                <button type="submit" class="edit_Approve_Button"  data-request_id="{{ requestobj.id }}" id="approve-btn">Approve</button>
             </form>
             <a id="edit_req_cancel_btn" href="{% url 'requests' %}">Cancel</a>
             <form method="POST" action="{% url 'deny-request' requestobj.id %}">
@@ -38,10 +38,8 @@
 
     {% endif %}
 
-
-
-   <script>
-    const one = document.getElementById('pre').innerHTML,
+    <script>
+         const one = document.getElementById('pre').innerHTML,
         other = document.getElementById('post').innerHTML,
         color = '';
 
@@ -69,5 +67,6 @@
     
         display.appendChild(fragment);
     </script>
+
 {% endblock %}
 

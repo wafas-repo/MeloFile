@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
 
+
     document.querySelectorAll('.edit_Request_Button').forEach(btn => {
 
         btn.onclick = function () {
@@ -72,7 +73,9 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.edit_Approve_Button').forEach(btn => {
 
         btn.onclick = function () {
+            console.log('clicked')
             let id = btn.dataset.request_id;
+            console.log(id)
             content = document.querySelector('#post').innerHTML
 
             fetch('/approve-request/' + id, {
@@ -93,3 +96,10 @@ document.addEventListener('DOMContentLoaded', function() {
     })   
 
 });
+
+
+
+   
+
+
+

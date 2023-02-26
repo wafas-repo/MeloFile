@@ -2,13 +2,6 @@
 
 {% block body %}
 
-<style>
-    .home-container{
-        display: grid;
-        grid-template-columns: 1fr 3fr 1fr;
-    }
-</style>
-
 <div>
     All Artists : <a href="{% url 'artists-index' 'A' %}">A</a> 
                   <a href="{% url 'artists-index' 'B' %}">B</a> 
@@ -62,7 +55,7 @@
 
             {% for song in ratings %}
                 <div>
-                    <h5> <a href="{% url 'song' song.id %}">{{song.title}}</a> -- {{song.artist}} -- {{song.average_rating}}</h5>
+                    <h5> <a href="{% url 'song' song.id %}">{{song.title}}</a> -- {{song.artist}} -- {{song.average_rating|floatformat:"0"}}/5</h5>
                 </div>
             {% endfor %}
         </div>
@@ -79,7 +72,37 @@
 
         </div>
 
+
     </div>
+
+    <div class="container">
+        <div class="row my-5 ">
+            <div class="col-md-4">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                      <li class="page-item">
+                        {% if page.has_previous %}
+                        <a class="page-link" href="{% url 'home' %}?page={{ page.previous_page_number }}">Previous</a>
+                        {% endif %}
+                      </li>
+                      {% for num_page in page.paginator.page_range %}
+                        {% if page.number == num_page %}
+                            <li class="page-item active"><a class="page-link" href="{% url 'home' %}?page={{ num_page }}">{{num_page}}</a></li>
+                        {% else %}
+                            <li class="page-item"><a class="page-link" href="{% url 'home' %}?page={{ num_page }}">{{num_page}}</a></li>
+                        {% endif %}
+                      {% endfor %}
+                      <li class="page-item">
+                        {% if page.has_next %}
+                        <a class="page-link" href="{% url 'home' %}?page={{ page.next_page_number }}">Next</a>
+                        {% endif %}
+                      </li>
+                    </ul>
+                  </nav>
+            </div>
+        </div>
+    </div>
+
 
 
 </div>

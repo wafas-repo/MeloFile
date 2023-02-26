@@ -1,8 +1,5 @@
-{% for song in songs %}
-    <!-- {% if request.user == song.creator %}
-        <a href="{% url 'edit-song' song.id  %}">Edit</a>
-        <a href="{% url 'delete-song' song.id  %}">Delete</a>
-    {% endif %} -->
+{% for song in page.object_list %}
+
     <div>
         <h5>{{song.id}} -- <a href="{% url 'song' song.id %}">{{song.title}}</a> -- {{song.artist}} </h5>
     </div>
