@@ -2,29 +2,42 @@
 
 {% block body %}
 
-    <h2>Register</h2>
+<div class="register">
+
+    <h1>Sign Up</h1>
 
     {% if message %}
         <div>{{ message }}</div>
     {% endif %}
 
-    <form action="{% url 'register' %}" method="post">
+    <form class="sign-up-form" action="{% url 'register' %}" method="post">
         {% csrf_token %}
         <div class="form-group">
-            <input class="form-control" autofocus type="text" name="username" placeholder="Username">
+            <label id="user-register" for="">Username</label>
+            <input id="user-register" class="form-control" autofocus type="text" name="username">
         </div>
         <div class="form-group">
-            <input class="form-control" type="email" name="email" placeholder="Email Address">
+            <label id="user-register" for="">Email Address</label>
+            <input id="user-register" class="form-control" type="email" name="email">
         </div>
         <div class="form-group">
-            <input class="form-control" type="password" name="password" placeholder="Password">
+            <label id="user-register" for="">Password</label>
+            <input id="user-register" class="form-control" type="password" name="password" >
         </div>
         <div class="form-group">
-            <input class="form-control" type="password" name="confirmation" placeholder="Confirm Password">
+            <label id="user-register" for="">Confirm Password</label>
+            <input id="user-register" class="form-control" type="password" name="confirmation">
         </div>
         <input class="btn btn-primary" type="submit" value="Register">
     </form>
 
-    Already have an account? <a href="{% url 'login' %}">Log In here.</a>
+    <p class="callout">
+        Already have an account? <a href="{% url 'login' %}">Log In here.</a>
+    </p>
 
+    
+
+</div>
+
+    
 {% endblock %}

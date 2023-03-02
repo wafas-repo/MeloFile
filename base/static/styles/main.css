@@ -1,5 +1,223 @@
 body {
 
+   background-color: #000;
+   color: #ccc;
+
+}
+
+.header {
+   padding: 1rem 1rem;
+   background-color: #363636;
+}
+
+.header > .nvbrcontainer {
+   position: relative;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   /* display: flex; */
+
+}
+
+.header__search > label {
+   background-color: #262626;
+   padding: 0.2rem 0.5rem;
+   display: flex;
+   align-items: center;
+   gap: 1rem;
+   border: solid #5ba7c2;
+   border-radius: 5px;
+ }
+
+ .header__search svg {
+   fill: #51546e;
+   width: 1.2rem;
+   height: 1.2rem;
+   margin-left: 1rem;
+ }
+
+.header__search input {
+   width: 12rem;
+   background: transparent;
+   border: none;
+   outline: none;
+}
+
+.header__logo > h1 {
+   position: relative;
+   font-weight: 700;
+   font-size: 2rem;
+   margin-right: 8rem;
+
+}
+
+.header__menu {
+   position: relative;
+ }
+
+.header__menu a {
+   font-weight: 500;
+   text-decoration: none;
+}
+
+.header__menu svg {
+   width: 1rem;
+   height: 1rem;
+   fill: #000;
+ }
+
+.loggedin--links {
+   display: inline-block;
+   padding: 0 1rem;
+   vertical-align: middle;
+}
+
+.form1 {
+   display: flex;
+   gap: 2rem;
+}
+
+.header__user {
+   display: flex;
+   gap: 2rem;
+   align-items: center;
+ }
+
+.header--loggedout {
+   display: flex;
+   align-items: center;
+   margin-right: 1rem;
+}
+
+.header--loggedout a:nth-child(2) {
+   margin-left: 1rem;
+}
+
+.dropdown-button {
+   background: transparent;
+   border: 0;
+   outline: 0;
+   cursor: pointer;
+ }
+ 
+ .dropdown-button:hover svg {
+   fill: #5ba7c2;
+ }
+
+ .dropdown-menu {
+   z-index: 111;
+   position: absolute;
+   top: 5rem;
+   right: 0.5rem;
+   background: #444;
+   border-radius: 5px;
+   box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15);
+   overflow: hidden;
+   display: none;
+ }
+
+.dropdown-menu.show {
+   display: block;
+}
+
+.dropdown-menu a {
+   padding: 1rem 2rem;
+   display: block;
+   color: #e5e5e5  !important;
+   font-weight: 500;
+   font-size: 1rem;
+}
+
+.dropdown-menu a:hover {
+   background-color: #51546e;
+}
+
+.dropdown-menu > a:not(:last-child) {
+   border-bottom: 1px solid #51546e;
+}
+
+.dropdown-menu a svg {
+   fill: #e5e5e5 !important;
+ }
+ 
+
+h1 {
+   font-family: DinCondensed,sans-serif;
+   font-size: 40px;
+   color: #fff;
+   font-weight: 700;
+   line-height: 100%;
+}
+
+.login h1, .register h1 {
+   text-align: center;
+}
+
+
+#user-sign-in label {
+   font-weight: 400;
+   font-size: 14px;
+   color: #ede8e9;
+}
+
+.login .callout, .register .callout {
+   margin-top: 1rem;
+   text-align: center;
+}
+
+input[type=password], input[type=text], input[type=email] {
+   background-color: #363636;
+   border-color: #555;
+   color: #ccc;
+   border: 1px solid #bbb;
+   border-radius: 2px;
+   padding: 5px;
+   min-width: 120px;
+   max-width: 100%;
+   font-size: 15px;
+   margin-bottom: 13px;
+   cursor: pointer;
+}
+
+
+
+#user-sign-in input[type=password]::selection {
+   background-color: #363636;
+   text-shadow: none;
+}
+
+a {
+
+   color: #5ba7c2;
+   text-decoration: none;
+}
+
+#user-sign-in input[type=submit], .sign-up-form input[type=submit] {
+   width: auto;
+   margin-bottom: 0;
+   cursor: pointer;
+   background-color: #262626;
+   color: #ccc;
+   border: 1px solid #444;
+   display: inline-block;
+   font: normal 13px/1rem Programme,Arial,sans-serif;
+   position: relative;
+   border-radius: 2px;
+   padding: 5px 9px;
+   margin: 3px 4px 5px 0;
+}
+
+.sign-in-form, .sign-up-form {
+   color: #ede8e9;
+   background-color: rgba(153,153,153,.09);
+   padding: 10px;
+   margin: 10px auto;
+   max-width: 370px;
+   border-top: 1px solid rgba(153,153,153,.18);
+}
+
+.sign-up-form {
+   max-width: 600px;
 }
 
 .rating-list li {
