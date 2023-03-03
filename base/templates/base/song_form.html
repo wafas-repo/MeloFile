@@ -2,38 +2,81 @@
 
 {% block body %}
 
-<div>
-    <form method="POST" action="">
-        {% csrf_token %}
-        <div>
-            <label for="">Title</label>
-            {{form.title}}
-        </div>
+<div id="container">
+    <div id="songform-main">
 
-        <div>
-            <label for="">Artist</label>
-            <input required type="text" value="{{song.artist}}" name="artist" list="artist-list"/>
-            <datalist id="artist-list">
-                <select name="" id="song_artist">
-                    {% for artist in artists %}
-                        <option value="{{artist.name}}">{{artist.name}}</option>
-                    {% endfor %}
-                </select>
-            </datalist>   
-        </div>
+        <h3 class="add__song__header">Add Song</h3>
 
-        <div>
-            <label for="">Lyrics</label>
-            {{form.lyrics}}
-        </div>
+        <form id="new-song" method="POST" action="">
+            {% csrf_token %}
+            <div class="songform-section">
 
-        <div>
-            <label for="">Genre</label>
-            {{form.genre}}
-        </div>
+                <div class="songform-column">
+                    <div>
+                        <label class="small_label" for="">Title</label>
+                        <br>
+                        {{form.title}}
+                    </div>
         
-        <input type="submit" value="Submit" />
-    </form>
+                    <div>
+                        <label class="small_label" for="">Artist</label>
+                        <input required type="text" value="{{song.artist}}" name="artist" list="artist-list"/>
+                        <datalist id="artist-list">
+                            <select name="" id="song_artist">
+                                {% for artist in artists %}
+                                    <option value="{{artist.name}}">{{artist.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </datalist>   
+                    </div>
+        
+                    <div class="genre-div">
+                        <label class="small_label" for="">Genre</label>
+                        <br>
+                        {{form.genre}}
+                    </div>    
+
+                    <span style="font-size: 12px;line-height: 1.4;font-style: italic;margin-top: 0.5rem;font-weight: 100;">Note: If you're not sure which tag to use please select “Pop”</span>
+                    <br>
+                    <span style="font-size: 12px;line-height: 1.4;font-style: italic;margin-top: 0.5rem;font-weight: 100;">Note: Hold down CMD key to select multiple genres.</span>
+
+                </div>
+
+                <div class="songform-column">
+
+                </div>
+                
+            </div>
+            
+            <div style="border-bottom: 1px solid rgba(154,154,154,.35); margin-bottom: 1rem;" class="songform-section">
+
+                <div class="songform-column">
+                    <label class="small_label" for="">Lyrics</label>
+                    <br>
+                    {{form.lyrics}}
+                </div>
+
+                <div class="songform-column">
+                    <div class="add_song_page-lyrics_style_guides">
+                        <h4>First Time Transcribing Lyrics?</h4>
+
+                        <p>Here are a few helpful tips for getting started:</p>
+
+                        <ol>
+                            <li>Type out all lyrics, even when a section of the song is repeated. Everything in the song should be transcribed, including adlibs, producer tags, etc. If you don’t understand a lyric, use “[?]” instead.</li>
+                            <li>Make sure to break transcriptions up into individual lines.</li>
+                            <li>Only add a song to MeloFile if it has been officially released.</li>
+                            <li>Please also make sure your song has not already been added. Duplicates will be deleted off site.</li>
+                        </ol>
+                    </div>
+                </div>
+
+            </div>
+            
+            <input type="submit" value="Submit" />
+        </form>
+
+    </div>
 </div>
 
 {% endblock %}

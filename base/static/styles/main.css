@@ -1,9 +1,22 @@
 body {
-
    background-color: #000;
    color: #ccc;
 
 }
+
+:root {
+   --color-main: #71c6dd;
+   --color-main-light: #e1f6fb;
+   --color-dark: #3f4156;
+   --color-dark-medium: #51546e;
+   --color-dark-light: #696d97;
+   --color-light: #e5e5e5;
+   --color-gray: #8b8b8b;
+   --color-light-gray: #b2bdbd;
+   --color-bg: #2d2d39;
+   --color-success: #5dd693;
+   --color-error: #fc4b0b;
+ }
 
 .header {
    padding: 1rem 1rem;
@@ -149,9 +162,15 @@ h1 {
    line-height: 100%;
 }
 
+
 .login h1, .register h1 {
    text-align: center;
 }
+
+.layout {
+   margin-top: 2.4rem;
+}
+
 
 
 #user-sign-in label {
@@ -220,6 +239,7 @@ a {
    max-width: 600px;
 }
 
+
 .rating-list li {
    float: right;
    color: #ddd;
@@ -239,7 +259,280 @@ a {
      color: orange;
 }
 
-.home-container{
-   display: grid;
-   grid-template-columns: 1fr 3fr 1fr;
+.container{
+   max-width: 120rem;
+   width: 90%;
+   margin: 2rem auto;
+   display: flex;
+   gap: 1rem;
+   align-items: flex-start;
 }
+
+.highlights {
+   background: #3f4156;
+   overflow: hidden;
+}
+
+.highlights--header h2 {
+   background-color: #5ba7c2;
+   text-transform: uppercase;
+   font-weight: 500;
+   padding: 1rem 1.5rem;
+   color: var(--color-light);
+   letter-spacing: 1px;
+   font-size: 1.4rem;
+}
+
+.song__wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1em 1.5em;
+    color: #fff;
+    border-bottom: 1px solid #555;
+}
+
+.song__wrapper span a {
+   width: 100%;
+    padding: 0 0 10px 0;
+    margin: 0 0 10px 0;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.pagination {
+   margin-top: 5rem;
+   margin-bottom: 5rem;
+}
+
+.container {
+   max-width: 120rem;
+   width: 90%;
+   margin: auto;
+  
+}
+
+.home-feed {
+   width: 70%;
+}
+
+.home-feed h4 {
+   background: #5ba7c2;
+   padding: 12px 10px;
+   text-transform: uppercase;
+}
+
+.add__song__header {
+   border-bottom: 1px solid rgba(154,154,154,.35);
+   margin-bottom: 1rem;
+   line-height: 100%;
+   padding-top: 1px;
+   padding-bottom: 10px;
+}
+
+#container {
+   display: block;
+   text-align: left;
+   width: 1012px;
+    min-width: 1012px;
+    margin: 0 auto;
+}
+
+#songform-main {
+    margin-top: 20px;
+}
+
+.songform-section {
+   display: flex;
+}
+
+.songform-column {
+   flex: 1;
+   box-sizing: border-box;
+   padding: 0 1rem;
+   position: relative;
+}
+
+.small_label {
+   margin: 0;
+   padding: 6px 0 5px 0;
+   font: 12px;
+   color: #626262;
+   text-align: left;
+   text-transform: uppercase;
+}
+
+#new-song input[type=text] {
+   display: block;
+    margin-bottom: 1.5rem;
+    box-sizing: border-box;
+    width: 100%;
+    background-color: whitesmoke;
+}
+
+#new-song textarea {
+   min-height: 500px;
+   font-size: 15px;
+   display: block;
+    margin-bottom: 1.5rem;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.add_song_page-lyrics_style_guides {
+   margin-top: 2rem;
+}
+
+.add_song_page-lyrics_style_guides h4 {
+   color: #fff;
+   font-size: 18px;
+   line-height: 140%;
+   margin-bottom: 20px;
+   font-weight: 700;
+}
+
+.add_song_page-lyrics_style_guides li {
+   margin: 0.5em;
+}
+
+#new-song input[type=submit] {
+   background-color: #262626;
+   color: #ccc;
+   border: 1px solid #444;
+    display: inline-block;
+    position: relative;
+    border-radius: 2px;
+    padding: 5px 9px;
+    margin: 3px 4px 40px 5px;
+}
+
+.genre-div select {
+   width: 30%;
+}
+
+
+.feed-layout > div:not(.nostyle) {
+   border-bottom: 1px solid #d7d7d7;
+   display: -webkit-box;
+   display: -moz-box;
+   display: -ms-flexbox;
+   display: -webkit-flex;
+   display: flex;
+   flex: none;
+   flex-flow: row nowrap;
+   padding-bottom: 10px;
+   padding-top: 10px;
+}
+
+.feed-layout > div:not(.nostyle) img {
+   display: block;
+    height: 80px;
+    width: 80px;
+}
+
+.feed-layout > div:not(.nostyle) > div:not(:first-child) {
+   margin-left: 20px;
+}
+
+.feed-song-title {
+   font-size: 16px;
+   font-weight: bold;
+}
+
+.bZsZHM {
+   display: flex;
+   flex-wrap: wrap;
+   gap: 0.75rem;
+}
+
+.evrydK {
+   color: rgb(255, 255, 255);
+   border: 1px solid rgb(255, 255, 255);
+   padding: 0.5rem;
+   font-size: 0.75rem;
+   font-weight: 700;
+}
+
+.songGen-container {
+   width: 20%;
+}
+
+.pagination > ul {
+   flex-wrap: wrap;
+   list-style: none;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   gap: 1rem;
+}
+
+.pagination .btn {
+    border: 1px solid #51546e;
+    background-color: #3f4156;
+}
+
+.page-link {
+   color: #5ba7c2;
+}
+
+.footer-basic {
+   padding:40px 0;
+   background-color:#363636;
+   bottom: 0;
+ }
+ 
+ .footer-basic ul {
+   padding:0;
+   list-style:none;
+   text-align:center;
+   font-size:18px;
+   line-height:1.6;
+   margin-bottom:0;
+ }
+ 
+ .footer-basic li {
+   padding:0 10px;
+ }
+ 
+ .footer-basic ul a {
+   color: #5ba7c2;
+   text-decoration:none;
+   opacity:0.8;
+ }
+ 
+ .footer-basic ul a:hover {
+   opacity:1;
+ }
+ 
+ .footer-basic .social {
+   text-align:center;
+   padding-bottom:25px;
+ }
+ 
+ .footer-basic .social > a {
+   font-size:24px;
+   width:40px;
+   height:40px;
+   line-height:40px;
+   display:inline-block;
+   text-align:center;
+   border-radius:50%;
+   border:1px solid #5ba7c2;
+   margin:0 8px;
+   color: #5ba7c2;
+   opacity:0.75;
+ }
+ 
+ .footer-basic .social > a:hover {
+   opacity:0.9;
+ }
+ 
+ .footer-basic .copyright {
+   margin-top:15px;
+   text-align:center;
+   font-size:13px;
+   color:#aaa;
+   margin-bottom:0;
+ }
+
+   

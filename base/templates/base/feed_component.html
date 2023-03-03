@@ -1,6 +1,15 @@
 {% for song in page.object_list %}
 
-    <div>
-        <h5>{{song.id}} -- <a href="{% url 'song' song.id %}">{{song.title}}</a> -- {{song.artist}} </h5>
+    <div class="feed-layout">
+        <div>
+            <div>
+                <img src="https://img2.lsistatic.com/img/artists/x6n54/93459527.jpeg" alt="BTS">
+            </div>
+            <div>
+                <a class="feed-song-title" href="{% url 'song' song.id %}">{{song.title}}</a> 
+                <br>
+                <a href="{% url 'artists-page' song.artist.name %}">{{song.artist}}</a>
+            </div>
+        </div>
     </div>
 {% endfor %}

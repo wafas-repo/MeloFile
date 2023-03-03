@@ -1,14 +1,13 @@
-<h3>Genres</h3>
-<hr>
+
 
 <div>
-    <a href="{% url 'home' %}">All</a>
+    <a class="evrydK" href="{% url 'home' %}">All</a>
 </div>
 
 {% for genre in genres %}
 
     <div>
-        <a href="{% url 'home' %}?q={{genre.name}}">{{genre.name}}</a>
+        <a class="evrydK" href="{% url 'home' %}?q={{genre.name}}">{{genre.name}}</a>
     </div>
 
 {% endfor %}

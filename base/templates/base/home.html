@@ -1,110 +1,95 @@
 {% extends 'main.html' %}
 
 {% block body %}
-<div class="home-container">
-
-    <div>
-        {% include 'base/genres_component.html' %}
-    </div>
-
-    <div>
-
-        <h1>ALL SONGS</h1>
-
-        <div>
-            {% include 'base/feed_component.html' %}
-        </div>
-
-    </div>
-
-    <div class="top-latest-col">
-
-        <div class="top-lyrics-div">
-            <h1>TOP LYRICS</h1>
-            <hr>
-
-            {% for song in ratings %}
-                <div>
-                    <h5> <a href="{% url 'song' song.id %}">{{song.title}}</a> -- {{song.artist}} -- {{song.average_rating|floatformat:"0"}}/5</h5>
-                </div>
-            {% endfor %}
-        </div>
-
-        <div class="latest-lyrics-div">
-
-            <h1>LATEST</h1>
-
-            {% for song in latest %}
-                <div>
-                    <h5> <a href="{% url 'song' song.id %}">{{song.title}}</a> -- {{song.artist}} -- {{song.created}} </h5>
-                </div>
-            {% endfor %}
-
-        </div>
-
-
-    </div>
+<main class="layout">
 
     <div class="container">
-        <div class="row my-5 ">
-            <div class="col-md-4">
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination">
-                      <li class="page-item">
-                        {% if page.has_previous %}
-                        <a class="page-link" href="{% url 'home' %}?page={{ page.previous_page_number }}">Previous</a>
-                        {% endif %}
-                      </li>
-                      {% for num_page in page.paginator.page_range %}
-                        {% if page.number == num_page %}
-                            <li class="page-item active"><a class="page-link" href="{% url 'home' %}?page={{ num_page }}">{{num_page}}</a></li>
-                        {% else %}
-                            <li class="page-item"><a class="page-link" href="{% url 'home' %}?page={{ num_page }}">{{num_page}}</a></li>
-                        {% endif %}
-                      {% endfor %}
-                      <li class="page-item">
-                        {% if page.has_next %}
-                        <a class="page-link" href="{% url 'home' %}?page={{ page.next_page_number }}">Next</a>
-                        {% endif %}
-                      </li>
-                    </ul>
-                  </nav>
+
+        <div class="songGen-container">
+            <h3>Genres</h3>
+            <div class=" bZsZHM">
+                {% include 'base/genres_component.html' %}
             </div>
         </div>
+       
+    
+        <div class="home-feed">
+    
+            <h4>ALL SONGS</h4>
+    
+            <div>
+                {% include 'base/feed_component.html' %}
+            </div>
+    
+    
+        </div>
+    
+        <div style="background: rgba(0,0,0,0);" class="highlights top-latest-col">
+    
+            <div  class=" highlights top-lyrics-div">
+                <div class="highlights--header">
+                    <h2>TOP LYRICS</h2>
+                </div>
+                <div class="highlights__box">
+                    {% for song in ratings %}
+                        <div class="song__wrapper">
+                            <span> <a href="{% url 'song' song.id %}">{{song.title}}</a> - {{song.artist}}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <br>
+            <div class="highlights latest-lyrics-div">
+    
+                <div class="highlights--header">
+                    <h2>LATEST</h2>
+                </div>
+                
+                <div class="highlights__box">
+                    {% for song in latest %}
+                        <div class="song__wrapper">
+                            <span> <a href="{% url 'song' song.id %}">{{song.title}}</a> - {{song.artist}} </span>
+                        </div>
+                    {% endfor %}
+                </div>
+                
+    
+            </div>
+    
+        </div>
+    
+        
+    
+       
+    
+        
+    
+    </div>
+    
+    <div class="pagination">
+    
+        <ul class="container">
+            <li class="">
+                {% if page.has_previous %}
+                <a class="btn page-link" href="{% url 'home' %}?page={{ page.previous_page_number }}">Previous</a>
+                {% endif %}
+              </li>
+              {% for num_page in page.paginator.page_range %}
+                        {% if page.number == num_page %}
+                            <li class="page-item active"><a class="btn page-link" href="{% url 'home' %}?page={{ num_page }}">{{num_page}}</a></li>
+                        {% else %}
+                            <li class="page-item"><a class="btn page-link" href="{% url 'home' %}?page={{ num_page }}">{{num_page}}</a></li>
+                        {% endif %}
+              {% endfor %}
+              <li class="">
+                {% if page.has_next %}
+                <a class="btn page-link" href="{% url 'home' %}?page={{ page.next_page_number }}">Next</a>
+                {% endif %}
+              </li>
+            
+        </ul>
     </div>
 
-    <div>
-        All Artists : <a href="{% url 'artists-index' 'A' %}">A</a> 
-                      <a href="{% url 'artists-index' 'B' %}">B</a> 
-                      <a href="{% url 'artists-index' 'C' %}">C</a> 
-                      <a href="{% url 'artists-index' 'D' %}">D</a> 
-                      <a href="{% url 'artists-index' 'E' %}">E</a> 
-                      <a href="{% url 'artists-index' 'F' %}">F</a> 
-                      <a href="{% url 'artists-index' 'G' %}">G</a> 
-                      <a href="{% url 'artists-index' 'H' %}">H</a>
-                      <a href="{% url 'artists-index' 'I' %}">I</a> 
-                      <a href="{% url 'artists-index' 'J' %}">J</a> 
-                      <a href="{% url 'artists-index' 'K' %}">K</a> 
-                      <a href="{% url 'artists-index' 'L' %}">L</a> 
-                      <a href="{% url 'artists-index' 'M' %}">M</a> 
-                      <a href="{% url 'artists-index' 'N' %}">N</a> 
-                      <a href="{% url 'artists-index' 'O' %}">O</a> 
-                      <a href="{% url 'artists-index' 'P' %}">P</a> 
-                      <a href="{% url 'artists-index' 'Q' %}">Q</a> 
-                      <a href="{% url 'artists-index' 'R' %}">R</a> 
-                      <a href="{% url 'artists-index' 'S' %}">S</a> 
-                      <a href="{% url 'artists-index' 'T' %}">T</a> 
-                      <a href="{% url 'artists-index' 'U' %}">U</a> 
-                      <a href="{% url 'artists-index' 'V' %}">V</a> 
-                      <a href="{% url 'artists-index' 'W' %}">W</a> 
-                      <a href="{% url 'artists-index' 'X' %}">X</a> 
-                      <a href="{% url 'artists-index' 'Y' %}">Y</a> 
-                      <a href="{% url 'artists-index' 'Z' %}">Z</a> 
-                      <hr>
-    </div>
-
-
-
-</div>
+</main>
 
 {% endblock %}
