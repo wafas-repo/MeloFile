@@ -31,16 +31,6 @@
                 </div>
             {% endif %}
         
-            <!-- <h5 class="card-title">Avg rating:
-                <span class="fa fa-star {% if song.average_rating > 0 %} checked {% endif %}"></span>
-                <span class="fa fa-star {% if song.average_rating > 1 %} checked {% endif %}"></span>
-                <span class="fa fa-star {% if song.average_rating > 2 %} checked {% endif %}"></span>
-                <span class="fa fa-star {% if song.average_rating > 3 %} checked {% endif %}" ></span>
-                <span class="fa fa-star {% if song.average_rating > 4 %} checked {% endif %}"></span>
-                <span>({{song.average_rating|floatformat:"0"}}/5 {{rating_count}} ratings)</span>
-            </h5> 
-         -->
-        
             {% if request.user.is_authenticated %}
                 <ul class="btn list-inline rating-list">
                     <li onclick="rate(5, {{ song.id }})">
