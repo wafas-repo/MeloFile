@@ -111,7 +111,7 @@ def createLyricPage(request):
 def editLyrics(request, pk):
     song = Song.objects.get(id=pk)
     form = SongForm(instance=song)
-
+    editform = True
     if request.method == 'POST':
         artist_name = request.POST.get('artist')
         artist, created = Artist.objects.get_or_create(name=artist_name)
@@ -124,7 +124,7 @@ def editLyrics(request, pk):
             song.genre.add(genre)
         song.save()
         return redirect('home')
-    context = {'form':form, 'song':song}
+    context = {'form':form, 'song':song, 'editform':editform}
     return render(request, "base/song_form.html", context)
 
 def favorite_song(request, pk):
@@ -138,8 +138,13 @@ def favorite_song(request, pk):
 def song_favorites_list(request):
     user = request.user
     favorite_songs = user.favorite.all()
+    page = Paginator(favorite_songs, 7)
+    page_list = request.GET.get('page')
+    page = page.get_page(page_list)
     context = {
+        'page':page,
         'favorite_songs':favorite_songs
+
     }
     return render(request, 'base/favorite_songs.html', context)
 
@@ -250,7 +255,7 @@ def following(request, pk):
     following = uid.following.all()
     songs = Song.objects.filter(creator__in=following).order_by('-created')
     following_comments = Comment.objects.filter(user__in=following).order_by('-date_added')
-
+    
     return render(request, "base/following.html", {
         "songs":songs,
         "following_comments": following_comments

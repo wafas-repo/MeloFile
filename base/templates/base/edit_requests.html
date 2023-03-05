@@ -2,19 +2,56 @@
 
 {% block body %}
 
+<div id="container">
+    <div style="margin-bottom: 5rem;" id="main">
+        <div class="page__header">
+            <h3>EDIT REQUESTS</h3>
+        </div>
+
     {% for request in received_requests %}
-        <div>
-            <p>{{request.from_user}} requested an edit for song {{ request.song.title }} -- {{request.song.lyrics}} -- {{ request.edit }} -- {{ request.created }}</p>
+    <div class="feedcomment__box">
+        <div class="activities__boxHeader roomListRoom__header">
+            <a href="{% url 'user-profile' request.from_user.id %}" class="roomListRoom__author">
+                <div class="avatar avatar--small">
+                    <img src="https://studybud.s3.amazonaws.com/imagesMR2UTKU3.jpg">
+                </div>
+                <p>
+                    @{{request.from_user}}
+                    <span>{{ request.created|timesince }} ago</span>
+                </p>
+            </a>
+        </div>
+        <div class="activities__boxContent">
+            <p>requested an edit for song “<a href="{% url 'song' request.song.id %}">{{ request.song.title }}</a>”</p>
             <a href="{% url 'request-view' request.id %}">View</a>
         </div>
+    </div>
+    <br>
     {% endfor %}
     
     {% for request in sent_requests %}
-        <div>
-            <p> You requested an edit for song {{ request.song.title }} -- {{request.song.lyrics}} -- {{ request.edit }} -- {{ request.created}}</p>
+    <div class="feedcomment__box">
+        <div class="activities__boxHeader roomListRoom__header">
+            <a href="{% url 'user-profile' request.from_user.id %}" class="roomListRoom__author">
+                <div class="avatar avatar--small">
+                    <img src="https://studybud.s3.amazonaws.com/imagesMR2UTKU3.jpg">
+                </div>
+                <p>
+                    @{{request.from_user}}
+                    <span>{{ request.created|timesince }} ago</span>
+                </p>
+            </a>
+        </div>
+        <div class="activities__boxContent">
+            <p> You requested an edit for song “<a href="{% url 'song' request.song.id %}">{{ request.song.title }}</a>”</p>
             <a href="{% url 'request-view' request.id %}">View</a>
         </div>
+    </div>
+    <br>
     {% endfor %}
+
+    </div>
+</div>
 
 
 {% endblock %}

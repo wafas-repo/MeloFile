@@ -2,13 +2,20 @@
 
 {% block body %}
 
-<h1>Here are your artist results for {{letter}}</h1>
+<div style="margin-top: 5rem;" class="container">
+    <div id="main">
+        <h1>Here are your artist results for "{{letter}}"</h1>
 
-{% for artist in artists_list %}
+        {% for artist in artists_list %}
+            <br>
+            <div>
+                <a href="{% url 'artists-page' artist.name %}">{{artist}}</a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
 
-    <a href="{% url 'artists-page' artist.name %}"><li>{{artist}}</li></a>
 
-{% endfor %}
 
 
 {% endblock %}

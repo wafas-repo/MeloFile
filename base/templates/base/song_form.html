@@ -3,9 +3,17 @@
 {% block body %}
 
 <div id="container">
-    <div id="songform-main">
+    <div id="main">
 
-        <h3 class="add__song__header">Add Song</h3>
+        <div class="page__header">
+            {% if editform %}
+                <h2 >Edit Song</h2>
+            {% else %}
+                <h2 >Add Song</h2>
+            {% endif %}
+            <small class="add_song_page-helper_text">* required</small>
+        </div>
+        
 
         <form id="new-song" method="POST" action="">
             {% csrf_token %}
@@ -13,13 +21,13 @@
 
                 <div class="songform-column">
                     <div>
-                        <label class="small_label" for="">Title</label>
+                        <label class="small_label" for="">Title*</label>
                         <br>
                         {{form.title}}
                     </div>
         
                     <div>
-                        <label class="small_label" for="">Artist</label>
+                        <label class="small_label" for="">Artist*</label>
                         <input required type="text" value="{{song.artist}}" name="artist" list="artist-list"/>
                         <datalist id="artist-list">
                             <select name="" id="song_artist">
@@ -31,14 +39,14 @@
                     </div>
         
                     <div class="genre-div">
-                        <label class="small_label" for="">Genre</label>
+                        <label class="small_label" for="">Genre*</label>
                         <br>
                         {{form.genre}}
                     </div>    
 
-                    <span style="font-size: 12px;line-height: 1.4;font-style: italic;margin-top: 0.5rem;font-weight: 100;">Note: If you're not sure which tag to use please select “Pop”</span>
+                    <span style="font-size: 12px;line-height: 1.4;font-style: italic;margin-top: 0.5rem;font-weight: 100;">Note: If you're not sure which genre to use please select “Pop”</span>
                     <br>
-                    <span style="font-size: 12px;line-height: 1.4;font-style: italic;margin-top: 0.5rem;font-weight: 100;">Note: Hold down CMD key to select multiple genres.</span>
+                    <span style="font-size: 12px;line-height: 1.4;font-style: italic;margin-top: 0.5rem;font-weight: 100;">Note: Hold down “Control”, or “Command” on a Mac, to select more than one.</span>
 
                 </div>
 
@@ -51,7 +59,7 @@
             <div style="border-bottom: 1px solid rgba(154,154,154,.35); margin-bottom: 1rem;" class="songform-section">
 
                 <div class="songform-column">
-                    <label class="small_label" for="">Lyrics</label>
+                    <label class="small_label" for="">Lyrics*</label>
                     <br>
                     {{form.lyrics}}
                 </div>

@@ -2,19 +2,72 @@
 
 {% block body %}
 
-<div>
-{% for song in songs %}
-    <a href="{% url 'user-profile' song.creator.id %}">@{{song.creator}}</a> Just posted : 
-    <h5><a href="{% url 'song' song.id %}">{{song.title}}</a> -- {{song.artist}} </h5>
-    <hr>
-{% endfor %}
-{% for comment in following_comments %}
-    <div>
-        <small> <a href="{% url 'user-profile' comment.user.id %}">@{{comment.user}}</a>   {{comment.date_added|timesince}}</small>
-        <small>commented on "{{comment.song.title}}"</small>
+<main>
+    <div id="container">
+        <div style="margin-bottom: 5rem;" id="main">
+            <div class="page__header">
+                <h3>FEED</h3>
+            </div>
+
+            <div>
+                {% for song in songs %}
+                <div class="feed-sect">
+                    <div class="activities__boxHeader roomListRoom__header">
+                        <a href="{% url 'user-profile' song.creator.id %}" class="roomListRoom__author">
+                            <div class="avatar avatar--small">
+                                <img src="https://studybud.s3.amazonaws.com/imagesMR2UTKU3.jpg">
+                            </div>
+                            <p>
+                                @{{song.creator}}
+                                <span>{{song.created|timesince}} ago</span>
+                            </p>
+                        </a>
+                    </div>
+                    <div  class="feed-layout activities__boxContent">
+                        <p>posted :</p>
+                        <div style="border-bottom: none;">
+                            <div>
+                                <img src="https://img2.lsistatic.com/img/artists/x6n54/93459527.jpeg" alt="BTS">
+                            </div>
+                            <div>
+                                <a class="feed-song-title" href="{% url 'song' song.id %}">{{song.title}}</a> 
+                                <br>
+                                <a href="{% url 'artists-page' song.artist.name %}">{{song.artist}}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>  
+                <br> 
+                    <!-- <h5><a href="{% url 'song' song.id %}">{{song.title}}</a> -- {{song.artist}} </h5>
+                    <hr> -->
+                {% endfor %}
+
+                {% for comment in following_comments %}
+
+                    <div class="feedcomment__box">
+                        <div class="activities__boxHeader roomListRoom__header">
+                            <a href="{% url 'user-profile' comment.user.id %}" class="roomListRoom__author">
+                                <div class="avatar avatar--small">
+                                    <img src="https://studybud.s3.amazonaws.com/imagesMR2UTKU3.jpg">
+                                </div>
+                                <p>
+                                    @{{comment.user}}
+                                    <span>{{comment.date_added|timesince}} ago</span>
+                                </p>
+                            </a>
+                        </div>
+                        <div class="activities__boxContent">
+                            <p>commented on “<a href="{% url 'song' comment.song.id %}">{{comment.song.title}}</a>”</p>
+                            <div class="activities__boxRoomContent">{{comment.comment}}</div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
     </div>
-    <hr>
-{% endfor %}
-</div>
+</main>
+
+
 
 {% endblock %}

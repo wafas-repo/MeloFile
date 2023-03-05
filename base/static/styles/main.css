@@ -1,7 +1,9 @@
 body {
    background-color: #000;
    color: #ccc;
-
+   min-height: 100vh;
+   display: flex;
+   flex-direction: column;
 }
 
 :root {
@@ -248,15 +250,16 @@ a {
 
 .rating-list li:hover,
 .rating-list li:hover ~ li {
-   color: orange;
+   color: #5ba7c2;
 }
 
 .rating-list {
    display: inline-block;
    list-style: none;
+   padding: 0;
 }
 .checked {
-     color: orange;
+     color: #5ba7c2;
 }
 
 .container{
@@ -322,23 +325,23 @@ a {
    text-transform: uppercase;
 }
 
-.add__song__header {
+.page__header {
    border-bottom: 1px solid rgba(154,154,154,.35);
    margin-bottom: 1rem;
    line-height: 100%;
    padding-top: 1px;
-   padding-bottom: 10px;
+   padding-bottom: 20px;
 }
 
 #container {
    display: block;
    text-align: left;
    width: 1012px;
-    min-width: 1012px;
-    margin: 0 auto;
+   min-width: 1012px;
+   margin: 0 auto;
 }
 
-#songform-main {
+#main {
     margin-top: 20px;
 }
 
@@ -367,6 +370,7 @@ a {
     margin-bottom: 1.5rem;
     box-sizing: border-box;
     width: 100%;
+    color: #000;
     background-color: whitesmoke;
 }
 
@@ -393,6 +397,9 @@ a {
 
 .add_song_page-lyrics_style_guides li {
    margin: 0.5em;
+}
+.add_song_page-helper_text {
+   float: right;
 }
 
 #new-song input[type=submit] {
@@ -439,6 +446,80 @@ a {
    font-weight: bold;
 }
 
+.feed-sect {
+   border: 2px solid var(--color-dark-medium);
+   border-radius: 5px;
+   padding: 1.5rem;
+}
+
+.feedcomment__box {
+   padding: 1.5rem;
+   border: 2px solid var(--color-dark-medium);
+   border-radius: 5px;
+}
+
+.avatar {
+   position: relative;
+   display: inline-block;
+   border-radius: 50%;
+   border: 2px solid var(--color-main);
+ }
+
+ .avatar.avatar--small img {
+   width: 2.8rem;
+   height: 2.8rem;
+ }
+
+ .avatar img {
+   display: block;
+   border-radius: 50%;
+   object-fit: cover;
+   object-position: center;
+}
+
+ .activities__boxHeader p {
+   line-height: 1.3;
+ }
+ 
+ .activities__boxHeader p span {
+   color: var(--color-gray);
+   display: block;
+ }
+
+
+.activities__boxContent {
+   margin-left: 4.2rem;
+ }
+ 
+ .activities__boxContent {
+   font-size: 0.9rem;
+ }
+ 
+ .activities__boxContent a:hover {
+   text-decoration: underline;
+ }
+ 
+ .activities__boxRoomContent {
+   background: var(--color-bg);
+   padding: 1rem;
+   border-radius: 5px;
+   margin-top: 1rem;
+   margin-left: -4.2rem;
+ }
+
+ .roomListRoom__header {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+ }
+ 
+.roomListRoom__author {
+   font-weight: 500;
+   display: flex;
+   align-items: center;
+   gap: 1rem;
+}
+
 .bZsZHM {
    display: flex;
    flex-wrap: wrap;
@@ -475,10 +556,110 @@ a {
    color: #5ba7c2;
 }
 
+.song__header {
+   text-align: left;
+   width: 1012px;
+   min-width: 1012px;
+   margin: 0 auto;
+   display: flex;
+   margin-top: 30px;
+}
+
+.song__header img {
+   margin-right: 20px;
+}
+
+#favorite-section {
+   margin: 20px 0 20px;
+}
+
+.song-page-btns {
+   display: flex;
+   flex-flow: row wrap;
+   gap: 0.5rem;
+   margin: 1rem 0px 0px;
+}
+
+.song-page-btns a {
+   display: flex;
+   align-items: center;
+   border-radius: 1.25rem;
+   padding: 0.25rem 0.75rem;
+   border: 1px solid #555;
+   font-size: 0.9rem;
+}
+
+.song-page-btns button {
+   display: flex;
+   align-items: center;
+   border-radius: 1.25rem;
+   padding: 0.25rem 0.75rem;
+   border: 1px solid #555;
+   color: #5ba7c2;
+   font-size: 0.9rem;
+   background-color: transparent;
+}
+
+.contributors-container {
+   text-align: left;
+   width: 1012px;
+   min-width: 1012px;
+   margin: 0 auto;
+   margin-top: 30px;
+}
+
+.contributors-container h4 {
+   background: #5ba7c2;
+   padding: 12px 10px;
+   text-transform: uppercase;
+}
+
+.contributor-list {
+   list-style: none;
+   counter-reset: my-awesome-counter;
+}
+
+.contributor-list li {
+   counter-increment: my-awesome-counter;
+   margin: 0.25rem;
+
+}
+
+.contributor-list li::marker {
+   content: counter(my-awesome-counter);
+   font-size: 2.3rem;
+   color: #444;
+}
+
+.contributor-div {
+   margin-top: 20px;
+}
+
+.song-genres {
+   text-align: left;
+   width: 1012px;
+   min-width: 1012px;
+   margin: 0 auto;
+}
+
+.song-genres-title {
+   font-size: 1rem;
+   margin: 0.75rem 0px;
+   text-align: left;
+}
+
+.comment-form {
+   margin-bottom: 20px;
+}
+
+#commentp {
+   margin-top: 30px;
+}
+
 .footer-basic {
    padding:40px 0;
    background-color:#363636;
-   bottom: 0;
+   margin-top: auto;
  }
  
  .footer-basic ul {
@@ -534,5 +715,6 @@ a {
    color:#aaa;
    margin-bottom:0;
  }
+
 
    

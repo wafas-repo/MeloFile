@@ -3,111 +3,162 @@
 
 {% block body %}
 
+    <div class="song__header">
 
-    <h1>{{song.title}}</h1>
-    <h3>{{song.artist}}</h3>
+        <div>
+            <img alt="Cover art for Snooze by SZA" style="height: 15rem; width:15rem;" src="https://t2.genius.com/unsafe/428x428/https%3A%2F%2Fimages.genius.com%2Fcde31e780d76c90305bc02d73bf4640b.1000x1000x1.png" data-visible="true"> 
+        </div>
 
-    {% if request.user == song.creator %}
-        <a href="{% url 'edit-song' song.id  %}">Edit</a>
-        <a href="{% url 'delete-song' song.id  %}">Delete</a>
-    {% endif %}
+        <div class="song-header-info">
 
-    {% if request.user.is_authenticated %}
+            <h1>{{song.title}}</h1>
+            <h3>{{song.artist}}</h3>
+        
+            {% if request.user.is_authenticated %}
+        
+                <div id="favorite-section">
+        
+                    {% if is_favorite  %}
+                    <a href="{% url 'favorite' song.id %}">
+                        <i class="fa fa-regualr fa-heart"></i>
+                    </a>
+                    {% else %}
+                    <a href="{% url 'favorite' song.id %}">
+                        <i class="far fa-regualr fa-heart"></i>
+                    </a>
+                    {% endif %}
+                    
+                </div>
+            {% endif %}
+        
+            <!-- <h5 class="card-title">Avg rating:
+                <span class="fa fa-star {% if song.average_rating > 0 %} checked {% endif %}"></span>
+                <span class="fa fa-star {% if song.average_rating > 1 %} checked {% endif %}"></span>
+                <span class="fa fa-star {% if song.average_rating > 2 %} checked {% endif %}"></span>
+                <span class="fa fa-star {% if song.average_rating > 3 %} checked {% endif %}" ></span>
+                <span class="fa fa-star {% if song.average_rating > 4 %} checked {% endif %}"></span>
+                <span>({{song.average_rating|floatformat:"0"}}/5 {{rating_count}} ratings)</span>
+            </h5> 
+         -->
+        
+            {% if request.user.is_authenticated %}
+                <ul class="btn list-inline rating-list">
+                    <li onclick="rate(5, {{ song.id }})">
+                        <i class="fa fa-star {% if song.user_rating > 4 %} checked {% endif %}" title="Rate 5"></i></li>
+                    <li onclick="rate(4, {{ song.id }})">
+                        <i class="fa fa-star {% if song.user_rating > 3 %} checked {% endif %}" title="Rate 4"></i></li>
+                    <li onclick="rate(3, {{ song.id }})">
+                        <i class="fa fa-star {% if song.user_rating > 2 %} checked {% endif %}" title="Rate 3"></i></li>
+                    <li onclick="rate(2, {{ song.id }})">
+                        <i class="fa fa-star {% if song.user_rating > 1 %} checked {% endif %}" title="Rate 2"></i></li>
+                    <li onclick="rate(1, {{ song.id }})">
+                        <i class="fa fa-star {% if song.user_rating > 0 %} checked {% endif %}" title="Rate 1"></i></li>
+                </ul>
+            {% endif %}
+            <div>
+               <span style="border: 2px solid #555; padding: 6px;"><span style="margin-right: 5px;" class="fa fa-star checked"></span>{{song.average_rating|floatformat:"0"}}/5</span> <span>{{rating_count}} ratings</span>
+            </div>
+           
+        </div>
 
-        <div id="favorite-section">
+    </div>
 
-            {% if is_favorite  %}
-            <a href="{% url 'favorite' song.id %}">
-                <i class="fa fa-regualr fa-heart"></i>
-            </a>
-            {% else %}
-            <a href="{% url 'favorite' song.id %}">
-                <i class="far fa-regualr fa-heart"></i>
-            </a>
+    <div class="song__header">
+
+        <div class="song-page-btns">
+            {% if request.user == song.creator %}
+            <a href="{% url 'edit-song' song.id  %}">Edit</a>
+            <a href="{% url 'delete-song' song.id  %}">Delete</a>
             {% endif %}
             
+            {% if request.user.is_authenticated %}
+                {% if song.creator != request.user %}
+                    <button id="editReqBtn" class="edit_Request_Button"  data-song_id="{{ song.id }}">Edit Request</button>
+                {% endif %}
+            {% endif %}
         </div>
-    {% endif %}
-
-    <h5 class="card-title">Avg rating:
-        <span class="fa fa-star {% if song.average_rating > 0 %} checked {% endif %}"></span>
-        <span class="fa fa-star {% if song.average_rating > 1 %} checked {% endif %}"></span>
-        <span class="fa fa-star {% if song.average_rating > 2 %} checked {% endif %}"></span>
-        <span class="fa fa-star {% if song.average_rating > 3 %} checked {% endif %}" ></span>
-        <span class="fa fa-star {% if song.average_rating > 4 %} checked {% endif %}"></span>
-        <span>({{song.average_rating|floatformat:"0"}}/5 {{rating_count}} ratings)</span>
-    </h5> 
-
-
-    {% if request.user.is_authenticated %}
-        <ul class="btn btn-light list-inline rating-list">
-            <li onclick="rate(5, {{ song.id }})">
-                <i class="fa fa-star {% if song.user_rating > 4 %} checked {% endif %}" title="Rate 5"></i></li>
-            <li onclick="rate(4, {{ song.id }})">
-                <i class="fa fa-star {% if song.user_rating > 3 %} checked {% endif %}" title="Rate 4"></i></li>
-            <li onclick="rate(3, {{ song.id }})">
-                <i class="fa fa-star {% if song.user_rating > 2 %} checked {% endif %}" title="Rate 3"></i></li>
-            <li onclick="rate(2, {{ song.id }})">
-                <i class="fa fa-star {% if song.user_rating > 1 %} checked {% endif %}" title="Rate 2"></i></li>
-            <li onclick="rate(1, {{ song.id }})">
-                <i class="fa fa-star {% if song.user_rating > 0 %} checked {% endif %}" title="Rate 1"></i></li>
-        </ul>
-    {% endif %}
-    <hr>
-    
-    {% if request.user.is_authenticated %}
-        {% if song.creator != request.user %}
-            <button id="editReqBtn" class="edit_Request_Button"  data-song_id="{{ song.id }}">Edit Request</button>
-        {% endif %}
-    {% endif %}
-    
-    <div id="song-lyrics-{{ song.id }}">
-        <p id="edit" class="lyric-content">{{ song.lyrics }}</p> 
     </div>
-    
-    <div>
-        <p>Genres: {% for genre in song.genre.all %}{{ genre }}{% endfor %}</p>
+    <div class="song__header">
+
+        <div id="song-lyrics-{{ song.id }}">
+            <div id="edit" class="lyric-content">{{ song.lyrics  | linebreaks }}</div> 
+        </div>
+    </div>
+    <div class="song-genres">
+        <div class="song-genres-title">
+            Genres
+        </div>
+        <div class="bZsZHM">
+            {% for genre in song.genre.all %}
+                <div class="evrydK">{{ genre }}</div>
+            {% endfor %}
+        </div>
     </div>
 
     <div class="contributors-container">
 
-        <h3>Contributors</h3>
-        <hr>
-        {% for user in contributors %}
-            <div>
-                <a href="{% url 'user-profile' song.creator.id %}">@{{user.username}}</a>
-            </div>
-        {% endfor %}
+        <h4>Contributors</h4>
+        <div class="contributor-div">
+            <ol class="contributor-list">
+                {% for user in contributors %}
+                    <li>
+                        <a style="margin-left: 20px;" href="{% url 'user-profile' song.creator.id %}" class="roomListRoom__author">
+                            <div class="avatar avatar--small">
+                                <img style="width: 2rem; height: 2rem;" src="https://studybud.s3.amazonaws.com/imagesMR2UTKU3.jpg">
+                            </div>
+                            <span>
+                                {{user.username}}
+                            </span>
+                        </a>
+                    </li>
+                    <br>
+                {% endfor %}
+            </ol>      
+        </div>
 
     </div>
-
-    <div class="comment-wrapper">
-        <h3>Comments</h3>
-        <hr>
-
-        {% for comment in comments %}
-
+    <div style="margin-bottom: 4rem;" class="contributors-container">
             <div>
-                {% if request.user == comment.user %}
-                    <a href="{% url 'delete-comment' comment.id %}">Delete</a>
-                {% endif %}
-                <small><a href="{% url 'user-profile' comment.user.id %}">@{{comment.user}}</a> {{comment.date_added|timesince}} ago </small>
-                <p>{{comment.comment}}</p>
+                <h3>Comments</h3>
                 <hr>
+
+                {% if request.user.is_authenticated %}
+                <div class="comment-form">
+                    <form method="POST" action="">
+                        {% csrf_token %}
+                        <input style="width: 30rem; height: 2.3rem;" type="text" name="comment" placeholder="Leave a comment...">
+                    </form>
+                </div>
+                {% endif %}
+        
+                {% for comment in comments %}
+        
+                    <div>
+                        <div class="activities__boxHeader roomListRoom__header">
+                            <a href="{% url 'user-profile' comment.user.id %}" class="roomListRoom__author">
+                                <div class="avatar avatar--small">
+                                    <img src="https://studybud.s3.amazonaws.com/imagesMR2UTKU3.jpg">
+                                </div>
+                                <p>
+                                    @{{comment.user}}
+                                    <span>{{comment.date_added|timesince}} ago</span>
+                                </p>
+                                {% if request.user == comment.user %}
+                                    <a href="{% url 'delete-comment' comment.id %}">Delete</a>
+                                {% endif %}
+                            </a>
+                        </div>
+                        <p id="commentp" >{{comment.comment}}</p>
+                    </div>
+
+                    <hr>
+        
+                {% endfor %}
+        
             </div>
 
-        {% endfor %}
-
     </div>
-
-    {% if request.user.is_authenticated %}
-    <div class="comment-form">
-        <form method="POST" action="">
-            {% csrf_token %}
-            <input type="text" name="comment" placeholder="Leave a comment...">
-        </form>
-    </div>
-    {% endif %}
+    
 
 
 {% endblock %}

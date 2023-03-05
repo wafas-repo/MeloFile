@@ -93,7 +93,8 @@ document.addEventListener('DOMContentLoaded', function() {
             })
         } 
         
-    })   
+    })
+    
 
 });
 
@@ -105,6 +106,12 @@ if (dropdownButton) {
     dropdownMenu.classList.toggle("show");
   });
 }
+
+document.querySelectorAll('.edit-song-link').forEach(btn => {
+    btn.addEventListener("click", () => {
+       change()
+    });
+})
 
 
 
