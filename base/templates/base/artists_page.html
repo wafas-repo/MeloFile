@@ -5,24 +5,51 @@
 <div class="song__header">
 
     <div>
-        <img alt="Cover art for Snooze by SZA" style="height: 15rem; width:15rem;" src="https://t2.genius.com/unsafe/428x428/https%3A%2F%2Fimages.genius.com%2Fcde31e780d76c90305bc02d73bf4640b.1000x1000x1.png" data-visible="true"> 
+        <img alt="Cover art for Snooze by SZA" style="height: 15rem; width:15rem; border-radius: 100%;" src="https://t2.genius.com/unsafe/428x428/https%3A%2F%2Fimages.genius.com%2Fcde31e780d76c90305bc02d73bf4640b.1000x1000x1.png" data-visible="true"> 
     </div>
     <div class="song-header-info">
-        <h3>{{artist}}</h3>
+        <h1 style="font-size: 3.5rem; margin-top: 20px;">{{artist}}</h1>
 
     </div>
 
 </div>
 
-<div>
+<div style="min-height: 50vh;" class="contributors-container">
 
     <h2>Popular {{artist}} songs</h2>
 
-    {% for song in artist_songs %}
+    {%  if artist_songs %}
 
-        <h5><a href="{% url 'song' song.id %}">{{song.title}}</a> -- {{song.artist}} </h5>
+        {% include 'base/feed_component.html' %}
+    {% else %}
 
-    {% endfor %}
+        <h2>Music Coming Soon.</h2>
+
+    {% endif %}
+   
 </div>
+{% if artist_songs %}
+<div class="pagination">   
+    <ul class="container">
+        <li class="">
+            {% if page.has_previous %}
+            <a class="btn page-link" href="{% url 'home' %}?page={{ page.previous_page_number }}">Previous</a>
+            {% endif %}
+        </li>
+        {% for num_page in page.paginator.page_range %}
+                    {% if page.number == num_page %}
+                        <li class="page-item active"><a class="btn page-link" href="{% url 'home' %}?page={{ num_page }}">{{num_page}}</a></li>
+                    {% else %}
+                        <li class="page-item"><a class="btn page-link" href="{% url 'home' %}?page={{ num_page }}">{{num_page}}</a></li>
+                    {% endif %}
+        {% endfor %}
+        <li class="">
+            {% if page.has_next %}
+            <a class="btn page-link" href="{% url 'home' %}?page={{ page.next_page_number }}">Next</a>
+            {% endif %}
+        </li>   
+    </ul>
+</div>
+{% endif %}
 
 {% endblock %}

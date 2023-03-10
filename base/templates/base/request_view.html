@@ -2,51 +2,69 @@
 
 {% block body %}
 
-   <h1>{{requestobj.from_user}} Requested an edit for Song {{requestobj.song.title}}</h1> 
+    <div style="margin-top: 5rem; margin-bottom: 3rem;" class="container">
+        <h1>{{requestobj.from_user}} Requested an edit for Song "{{requestobj.song.title}}"</h1> 
+    </div>
 
-   <span id="pre">{{requestobj.song.lyrics}}</span> <span id="display"></span>
-   <span id="post">{{requestobj.edit}}</span>
-    <hr>
-    {% if requestobj.pending %}
-        {% if request.user == requestobj.to_user %}
-            <form method="POST" action="{% url 'approve-request' requestobj.id %}">
-                {%  csrf_token %}
-                <button type="submit" class="edit_Approve_Button"  data-request_id="{{ requestobj.id }}" id="approve-btn">Approve</button>
-            </form>
-            <a id="edit_req_cancel_btn" href="{% url 'requests' %}">Cancel</a>
-            <form method="POST" action="{% url 'deny-request' requestobj.id %}">
-                {%  csrf_token %}
-                <button type="submit" id="deny-btn">Deny</button>
-            </form>
-        {% else %}
-            <div id="request-result">
-                <p>PENDING</p>
-            </div>
-        {% endif %}
+    <div style="width: 90%; margin: auto; margin-bottom: 5rem;" class="songform-section">
+        <div style="padding: 2rem;" class="songform-column">
+            <div style="font-size: 20px;" id="pre" class="lyric-content">{{ requestobj.song.lyrics | linebreaks }}</div> 
+  
+        </div>
+        <div style="padding: 2rem; border: 1px solid white;" class="songform-column">
+            <span id="post">{{requestobj.edit | linebreaks}}</span>
+            <span style="font-size: 18.75px;" id="display"></span>
+        </div>
 
-    {% else %}
+        <div class="editReqbtns songform-column"> 
 
-        {% if requestobj.approved %}
-            <div id="request-result">
-                <p>APPROVED</p>
-            </div>
-        {% else %}
-            <div id="request-result">
-                <p>DENIED</p>
-            </div>
-        {% endif %}
+            {% if requestobj.pending %}
+                {% if request.user == requestobj.to_user %}
+                <div style="display: flex; gap: 0.5rem;">
+                    <form method="POST" action="{% url 'approve-request' requestobj.id %}">
+                        {%  csrf_token %}
+                        <button type="submit" class="edit_Approve_Button"  data-request_id="{{ requestobj.id }}" id="approve-btn">Approve</button>
+                    </form>
+                    <form method="POST" action="{% url 'deny-request' requestobj.id %}">
+                        {%  csrf_token %}
+                        <button type="submit" id="deny-btn">Deny</button>
+                    </form>
+                </div>
+                    
+                    <a id="edit_req_cancel_btn" href="{% url 'requests' %}">Cancel</a>
+                   
+                {% else %}
+                    <div class="req-result" id="request-result">
+                        <p style="color: #5ba7c2;">PENDING</p>
+                    </div>
+                {% endif %}
+    
+            {% else %}
+    
+                {% if requestobj.approved %}
+                    <div class="req-result" id="request-result">
+                        <p style="color: green;">APPROVED</p>
+                    </div>
+                {% else %}
+                    <div class="req-result" id="request-result">
+                        <p style="color: red;">DENIED</p>
+                    </div>
+                {% endif %}
+    
+            {% endif %}
+    
+        </div>
+    
+    </div>
 
-    {% endif %}
-
+    
     <script>
          const one = document.getElementById('pre').innerHTML,
         other = document.getElementById('post').innerHTML,
         color = '';
 
         document.getElementById('post').style.display = 'none';
-
-        console.log(one, other)
-        
+    
         let span = null;
     
         const diff = Diff.diffChars(one, other),
@@ -61,10 +79,22 @@
             span = document.createElement('span');
             span.style.backgroundColor = color;
             span.appendChild(document
-                .createTextNode(part.value));
+                .createTextNode(part.value));  
+            str = span.innerText; 
+            var newSTR = str.replaceAll("<p>", "")
+                            .replaceAll("</p>", "")
+                            .replaceAll("<br>", '\n');
+
+            //console.log(newSTR) 
+            span.innerText = newSTR  
+            console.log(span.innerText)
             fragment.appendChild(span);
         });
-    
+        // str2 = span.innerText;
+        // var newSTR2 = str2.
+        //     replaceAll("<p>", "");
+        // newSTR2 = newSTR2.replaceAll("<br>", '\n')
+        // console.log('second', newSTR2)
         display.appendChild(fragment);
     </script>
 

@@ -11,12 +11,14 @@ document.addEventListener('DOMContentLoaded', function() {
             lyrics_div.querySelector('.lyric-content').style.display = 'none';
             
             var edit_text = document.createElement("textarea");
-            edit_text.style.width = '100%';
+            //edit_text.style.width = '100%';
             edit_text.setAttribute('form', 'editrequestform');
+            edit_text.classList.add('editTextArea');
             edit_text.value = curr_lyrics;
             lyrics_div.appendChild(edit_text);
             var edit_request_form = document.createElement("form");
             edit_request_form.setAttribute('id', 'editrequestform');
+            edit_request_form.classList.add('song-page-btns');
 
             const save_edit = document.createElement('input');
             save_edit.type = 'submit';
@@ -26,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
             cancel_edit.type = 'button';
             cancel_edit.textContent = 'Cancel';
             cancel_edit.style.color = 'white';
-            cancel_edit.style.backgroundColor = '#d9534f';
+            cancel_edit.style.backgroundColor = '#5ba7c2';
 
             edit_request_form.appendChild(save_edit);
             edit_request_form.appendChild(cancel_edit);

@@ -383,6 +383,15 @@ a {
     width: 100%;
 }
 
+.editTextArea {
+   min-height: 500px;
+   font-size: 15px;
+   display: block;
+   margin-bottom: 1.5rem;
+   box-sizing: border-box;
+   width: 500px;
+}
+
 .add_song_page-lyrics_style_guides {
    margin-top: 2rem;
 }
@@ -598,6 +607,31 @@ a {
    color: #5ba7c2;
    font-size: 0.9rem;
    background-color: transparent;
+}
+
+.editReqbtns form button {
+   border-radius: 1.25rem;
+   padding: 0.25rem 0.75rem;
+   border: 1px solid #555;
+   color: #5ba7c2;
+   font-size: 0.9rem;
+   background-color: transparent;
+   margin: 10px 0px 10px 0px;
+}
+
+.song-page-btns input {
+   display: flex;
+   align-items: center;
+   border-radius: 1.25rem;
+   padding: 0.25rem 0.75rem;
+   border: 1px solid #555;
+   color: #5ba7c2;
+   font-size: 0.9rem;
+   background-color: transparent;
+}
+
+.req-result {
+   font-size: 40px;
 }
 
 .contributors-container {

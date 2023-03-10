@@ -268,7 +268,10 @@ def artists_index(request, letter):
 
 def artist_page(request, artist):
     artist_songs = Song.objects.filter(artist__name=artist).annotate(avg_rate=(Avg("ratings__rating"))).order_by('avg_rate')[::-1][:5]
-    context = {'artist':artist, 'artist_songs':artist_songs }
+    page = Paginator(artist_songs, 7)
+    page_list = request.GET.get('page')
+    page = page.get_page(page_list)
+    context = {'artist':artist, 'artist_songs':artist_songs, 'page':page }
     return render(request, 'base/artists_page.html', context)
 
 @csrf_exempt
