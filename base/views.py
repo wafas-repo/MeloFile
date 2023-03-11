@@ -55,6 +55,8 @@ def userProfile(request, pk):
     context = {
         'profile':profile, 
         'songs': songs, 
+        'followers': followers,
+        'following': following,
         'is_following': is_following, 
         'num_followers': num_followers,
         "num_following": number_of_following
