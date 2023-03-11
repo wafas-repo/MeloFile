@@ -4,7 +4,7 @@ from django.db.models import Avg
 # Create your models here.
 
 class User(AbstractUser):
-    # avatar = models.ImageField()
+    avatar = models.ImageField(null=True, default="avatar.svg")
     follower = models.ManyToManyField('self', blank=True, symmetrical=False,  related_name='followers')
     follow = models.ManyToManyField('self', blank=True, symmetrical=False, related_name='following')
 

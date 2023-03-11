@@ -11,7 +11,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from . models import Song, Genre, Comment, User, Rating, Artist, EditRequest
-from . forms import SongForm
+from . forms import SongForm, UserForm
 
 
 # Create your views here.
@@ -329,3 +329,15 @@ def deny_request(request, pk):
         requestobj.approved = False
         requestobj.save()
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+@login_required(login_url='login')
+def updateUser(request):
+    user = request.user
+    form = UserForm(instance=user)
+
+    if request.method == 'POST':
+        form = UserForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('user-profile', pk=user.id)
+    return render(request, 'base/update_user.html', {'form': form})

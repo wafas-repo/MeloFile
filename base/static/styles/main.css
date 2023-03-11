@@ -228,7 +228,7 @@ a {
    margin: 3px 4px 5px 0;
 }
 
-.sign-in-form, .sign-up-form {
+.sign-in-form, .sign-up-form, .update-user-form {
    color: #ede8e9;
    background-color: rgba(153,153,153,.09);
    padding: 10px;
@@ -237,7 +237,7 @@ a {
    border-top: 1px solid rgba(153,153,153,.18);
 }
 
-.sign-up-form {
+.sign-up-form, .update-user-form {
    max-width: 600px;
 }
 
@@ -313,6 +313,12 @@ a {
    width: 90%;
    margin: auto;
   
+}
+
+.update-user-container {
+   max-width: 120rem;
+   width: 90%;
+   margin: auto;
 }
 
 .home-feed {
@@ -472,6 +478,12 @@ a {
    display: inline-block;
    border-radius: 50%;
    border: 2px solid var(--color-main);
+ }
+
+ .avatar.avatar--medium img {
+   width: 3.6rem;
+   height: 3.6rem;
+   border-radius: 50%;
  }
 
  .avatar.avatar--small img {
@@ -726,15 +738,17 @@ a {
 }
 
 .profile_header-avatar {
-   max-height: 18em;
-   max-width: 18em;
    left: 0;
    margin: 0 auto;
 }
 
-.user_avatar {
-   border-radius: 100%;
-}
+
+.avatar.avatar--large img {
+   display: block;
+   width: 12rem;
+   height: 12rem;
+   border-radius: 50%;
+ }
 
 .profile_header-avatar {
    width: 28vw;
@@ -746,7 +760,6 @@ a {
    left: -2vw;
    top: 3vw;
    position: relative;
-   border: 2px solid #fff;
 }
 
 @media screen and (max-width: 1099px) {
@@ -915,6 +928,53 @@ a {
 .user_badge-login {
    color: #5ba7c2;
 }
+
+.update-user {
+   margin-bottom: 3rem;
+}
+
+.update-user h1 {
+   text-align: center;
+   margin: 3rem;
+}
+
+.form__group label {
+   display: block;
+   font-size: 1rem;
+   margin-bottom: 1rem;
+}
+
+.form__group input, .form__group select {
+   background: transparent;
+   border: 1px solid var(--color-dark-light);
+   padding: 0.5rem;
+   border-radius: 3px;
+   width: 100%;
+   color: var(--color-light);
+   font-weight: 500;
+   outline: none;
+   margin-bottom: 2rem;
+}
+.form__action {
+   display: flex;
+   gap: 1rem;
+}
+.form__action button {
+   padding: 0.25rem 0.75rem;
+   border: 1px solid #555;
+   color: #5ba7c2;
+   font-size: 0.9rem;
+   background-color: transparent;
+}
+
+.form__action a {
+   padding: 0.25rem 0.75rem;
+   border: 1px solid #555;
+   color: #5ba7c2;
+   font-size: 0.9rem;
+   background-color: transparent;
+}
+
 
 .footer-basic {
    padding:40px 0;
