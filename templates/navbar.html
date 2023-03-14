@@ -1,8 +1,9 @@
 {% load static %}
-
 <header class="header header--loggedIn">
     <div class="nvbrcontainer">
-
+        <a href="{% url 'home' %}" class="header__logo__mobile">
+          <img src="{% static 'images/logo.svg' %}" />
+        </a>
         <form class="header__search" method="GET" action="{% url 'home' %}">
             <label>
                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
@@ -16,14 +17,14 @@
         </form>
 
         <a href="{% url 'home' %}" class="header__logo">
-            <!-- <img src="{% static 'images/logo.svg' %}" /> -->
-            <h1>MeloFile</h1>
+          <img src="{% static 'images/logo.svg' %}" />
+          <h1>MeloFile</h1>
         </a>
 
         <nav class="header__menu">
 
             {% if user.is_authenticated %}
-                <div class="loggedin--links">
+                <div class="nav-links loggedin--links">
                     <div class="form1">
                         <a href="{% url 'add-song' %}">Add Song</a>
 
@@ -35,10 +36,10 @@
                 <div class="loggedin--links">
                     <div class="header__user">
                         <a href="{% url 'user-profile' user.id %}">
-                        <div class="avatar avatar--medium active">
+                        <div class="avatar-nav avatar--small active">
                           <img src="{{request.user.avatar.url}}" />
                         </div>
-                        <p>{{request.user.username}}</p>
+                        <p>@{{request.user.username}}</p>
                         </a>
                         <button class="dropdown-button">
                         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
@@ -61,8 +62,30 @@
             {% endif %}
 
             <div class="dropdown-menu">
+                <div class="mobile-dropdown">
+                  <a href="{% url 'add-song' %}" class="dropdown-link"
+                  ><svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+                    <title>add</title>
+                    <path d="M16.943 0.943h-1.885v14.115h-14.115v1.885h14.115v14.115h1.885v-14.115h14.115v-1.885h-14.115v-14.115z">
+                    </path>
+                  </svg>
+                      Add Song
+                    </a >
+                    <a href="{% url 'requests' %}" class="dropdown-link"
+                  ><svg width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M48 23.6C52.64 23.6 56.4 27.36 56.4 32C56.4 36.64 52.64 40.4 48 40.4C43.36 40.4 39.6 36.64 39.6 32C39.6 27.36 43.36 23.6 48 23.6ZM48 59.6C59.88 59.6 72.4 65.44 72.4 68V72.4H23.6V68C23.6 65.44 36.12 59.6 48 59.6ZM48 16C39.16 16 32 23.16 32 32C32 40.84 39.16 48 48 48C56.84 48 64 40.84 64 32C64 23.16 56.84 16 48 16ZM48 52C37.32 52 16 57.36 16 68V80H80V68C80 57.36 58.68 52 48 52Z" fill="#E5E5E5"/>
+                    </svg>    
+                      Requests
+                    </a >
+                    <a href="{% url 'following' request.user.id %}" class="dropdown-link"
+                    > <svg width="63" height="63" viewBox="0 0 63 63" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M0 0.76001V12.08C28.12 12.08 50.92 34.88 50.92 63H62.24C62.24 28.64 34.36 0.76001 0 0.76001ZM0 23.4V34.72C15.6 34.72 28.28 47.4 28.28 63H39.6C39.6 41.12 21.88 23.4 0 23.4Z" fill="#E5E5E5"/>
+                      </svg>                      
+                      Feed
+                    </a >
+                </div>
                 <a href="{% url 'favorite-songs-list' %}" class="dropdown-link"
-                  ><svg width="80" height="74" viewBox="0 0 80 74" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  ><svg width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M58 0C51.04 0 44.36 3.24 40 8.36C35.64 3.24 28.96 0 22 0C9.68 0 0 9.68 0 22C0 37.12 13.6 49.44 34.2 68.16L40 73.4L45.8 68.12C66.4 49.44 80 37.12 80 22C80 9.68 70.32 0 58 0ZM40.4 62.2L40 62.6L39.6 62.2C20.56 44.96 8 33.56 8 22C8 14 14 8 22 8C28.16 8 34.16 11.96 36.28 17.44H43.76C45.84 11.96 51.84 8 58 8C66 8 72 14 72 22C72 33.56 59.44 44.96 40.4 62.2Z" fill="#E5E5E5"/>
                     </svg>
                       My Favorites

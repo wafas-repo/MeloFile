@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-    document.getElementById("defaultOpen").click();
+    startTab()
 
     document.querySelectorAll('.edit_Request_Button').forEach(btn => {
 
@@ -42,11 +42,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 btn.style.display = 'block'
             });
 
-            let last_lyrics = lyrics_div.querySelector('.lyric-content').innerText;
+            let str = document.querySelector('.lyric-content').innerHTML;
+            var last_lyrics = str.replaceAll("<p>", "")
+                            .replaceAll("</p>", "")
+                            .replaceAll("<br>", '\n');
 
-            edit_request_form.onsubmit = (e) => {
-                if(last_lyrics === edit_text.value) {
-                    alert('No Changes')
+            console.log(last_lyrics)
+            edit_request_form.onsubmit = (e) => {  
+                if(last_lyrics == edit_text.value) {
+                    alert('No changes detected')
                     e.preventDefault();
                 } else {
                     fetch('/edit-request/' + id, {
@@ -59,7 +63,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         if (result.error) {
                             console.log(`Error editing post: ${result.error}`);
                         } else {
-                            alert('Request Sent!')
                             edit_request_form.style.display = 'none';
                             edit_text.style.display = 'none';
                             lyrics_div.querySelector('.lyric-content').style.display = 'block';
@@ -116,7 +119,18 @@ document.querySelectorAll('.edit-song-link').forEach(btn => {
     });
 })
 
+function startTab() {
+
+    if (document.getElementById("defaultOpen")) {
+        document.getElementById("defaultOpen").click();
+    } else {
+        
+    }
+    
+}
+
 function profileTabs(evt, tabname) {
+
     // Declare all variables
     var i, tabcontent, tablinks;
   

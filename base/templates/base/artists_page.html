@@ -1,11 +1,12 @@
 {% extends 'main.html' %}
-
+{% load static %}
 {% block body %}
 
+<div id="container">
 <div class="song__header">
 
     <div>
-        <img alt="Cover art for Snooze by SZA" style="height: 15rem; width:15rem; border-radius: 100%;" src="https://t2.genius.com/unsafe/428x428/https%3A%2F%2Fimages.genius.com%2Fcde31e780d76c90305bc02d73bf4640b.1000x1000x1.png" data-visible="true"> 
+        <img style="height: 15rem; width:15rem; border-radius: 100%;" src="/images/avatar.svg" data-visible="true"> 
     </div>
     <div class="song-header-info">
         <h1 style="font-size: 3.5rem; margin-top: 20px;">{{artist}}</h1>
@@ -51,5 +52,6 @@
     </ul>
 </div>
 {% endif %}
+</div>
 
 {% endblock %}

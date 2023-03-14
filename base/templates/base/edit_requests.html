@@ -3,7 +3,7 @@
 {% block body %}
 
 <div id="container">
-    <div style="margin-bottom: 5rem;" id="main">
+    <div id="main">
         <div class="page__header">
             <h3>EDIT REQUESTS</h3>
         </div>
@@ -13,7 +13,7 @@
         <div class="activities__boxHeader roomListRoom__header">
             <a href="{% url 'user-profile' request.from_user.id %}" class="roomListRoom__author">
                 <div class="avatar avatar--small">
-                    <img src="https://studybud.s3.amazonaws.com/imagesMR2UTKU3.jpg">
+                    <img src="{{request.from_user.avatar.url}}">
                 </div>
                 <p>
                     @{{request.from_user}}
@@ -34,7 +34,7 @@
         <div class="activities__boxHeader roomListRoom__header">
             <a href="{% url 'user-profile' request.from_user.id %}" class="roomListRoom__author">
                 <div class="avatar avatar--small">
-                    <img src="https://studybud.s3.amazonaws.com/imagesMR2UTKU3.jpg">
+                    <img src="{{request.from_user.avatar.url}}">
                 </div>
                 <p>
                     @{{request.from_user}}

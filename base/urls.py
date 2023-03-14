@@ -23,6 +23,7 @@ urlpatterns = [
     path("approve-request/<str:pk>", views.approve_request, name="approve-request"),
     path("deny-request/<str:pk>", views.deny_request, name="deny-request"),
     path("update-user/", views.updateUser, name="update-user"),
+    path("top-lyrics/", views.top_lyrics, name="top-lyrics"),
 
     path("login", views.login_view, name="login"),
     path("logout", views.logout_view, name="logout"),

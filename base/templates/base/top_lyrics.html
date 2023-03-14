@@ -1,0 +1,22 @@
+{% extends 'main.html' %}
+
+{% block body %}
+
+<div style="background: rgba(0,0,0,0);" class=" mobile-highlights top-latest-col">
+    
+    <div  class=" top-lyrics-div">
+        <div class="highlights--header">
+            <h2>TOP LYRICS</h2>
+        </div>
+        <div class="highlights__box">
+            {% for song in ratings %}
+                <div class="song__wrapper">
+                    <span> <a href="{% url 'song' song.id %}">{{song.title}}</a> - {{song.artist}}</span>
+                </div>
+            {% endfor %}
+        </div>
+    </div>    
+
+</div>
+
+{% endblock %}

@@ -6,7 +6,7 @@
     <div class="song__header">
 
         <div>
-            <img alt="Cover art for Snooze by SZA" style="height: 15rem; width:15rem;" src="https://t2.genius.com/unsafe/428x428/https%3A%2F%2Fimages.genius.com%2Fcde31e780d76c90305bc02d73bf4640b.1000x1000x1.png" data-visible="true"> 
+            <img style="height: 15rem; width:15rem;" src="https://cdn.lsistatic.com/img/no_img_artist.png" data-visible="true"> 
         </div>
 
         <div class="song-header-info">
@@ -52,15 +52,17 @@
         </div>
 
     </div>
-
+    {% for message in messages %}
+    <div style=" margin: 1rem; left: 19%; width: 50% ;" class="alert alert-success">
+        {{message}}
+    </div>
+    {% endfor %}
     <div class="song__header">
-
         <div class="song-page-btns">
             {% if request.user == song.creator %}
             <a href="{% url 'edit-song' song.id  %}">Edit</a>
             <a href="{% url 'delete-song' song.id  %}">Delete</a>
             {% endif %}
-            
             {% if request.user.is_authenticated %}
                 {% if song.creator != request.user %}
                     <button id="editReqBtn" class="edit_Request_Button"  data-song_id="{{ song.id }}">Edit Request</button>
@@ -74,14 +76,16 @@
             <div id="edit" class="lyric-content">{{ song.lyrics  | linebreaks }}</div> 
         </div>
     </div>
-    <div class="song-genres">
-        <div class="song-genres-title">
-            Genres
-        </div>
-        <div class="bZsZHM">
-            {% for genre in song.genre.all %}
-                <div class="evrydK">{{ genre }}</div>
-            {% endfor %}
+    <div class="song__header">
+        <div class="song-genres">
+            <div class="song-genres-title">
+                Genres
+            </div>
+            <div class="bZsZHM">
+                {% for genre in song.genre.all %}
+                    <div class="evrydK">{{ genre }}</div>
+                {% endfor %}
+            </div>
         </div>
     </div>
 
@@ -92,9 +96,9 @@
             <ol class="contributor-list">
                 {% for user in contributors %}
                     <li>
-                        <a style="margin-left: 20px;" href="{% url 'user-profile' song.creator.id %}" class="roomListRoom__author">
+                        <a style="margin-left: 20px;" href="{% url 'user-profile' user.id %}" class="roomListRoom__author">
                             <div class="avatar avatar--small">
-                                <img style="width: 2rem; height: 2rem;" src="https://studybud.s3.amazonaws.com/imagesMR2UTKU3.jpg">
+                                <img style="width: 2rem; height: 2rem;" src="{{ user.avatar.url }}">
                             </div>
                             <span>
                                 {{user.username}}
@@ -127,7 +131,7 @@
                         <div class="activities__boxHeader roomListRoom__header">
                             <a href="{% url 'user-profile' comment.user.id %}" class="roomListRoom__author">
                                 <div class="avatar avatar--small">
-                                    <img src="https://studybud.s3.amazonaws.com/imagesMR2UTKU3.jpg">
+                                    <img src="{{comment.user.avatar.url}}">
                                 </div>
                                 <p>
                                     @{{comment.user}}

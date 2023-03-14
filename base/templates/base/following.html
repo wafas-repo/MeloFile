@@ -15,7 +15,7 @@
                     <div class="activities__boxHeader roomListRoom__header">
                         <a href="{% url 'user-profile' song.creator.id %}" class="roomListRoom__author">
                             <div class="avatar avatar--small">
-                                <img src="https://studybud.s3.amazonaws.com/imagesMR2UTKU3.jpg">
+                                <img src="{{song.creator.avatar.url}}">
                             </div>
                             <p>
                                 @{{song.creator}}
@@ -48,7 +48,7 @@
                         <div class="activities__boxHeader roomListRoom__header">
                             <a href="{% url 'user-profile' comment.user.id %}" class="roomListRoom__author">
                                 <div class="avatar avatar--small">
-                                    <img src="https://studybud.s3.amazonaws.com/imagesMR2UTKU3.jpg">
+                                    <img src="{{comment.user.avatar.url}}">
                                 </div>
                                 <p>
                                     @{{comment.user}}

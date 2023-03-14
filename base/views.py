@@ -214,7 +214,7 @@ def deleteSong(request, pk):
     if request.method == 'POST':
         song.delete()
         return redirect('home')
-    return render(request, 'base/delete.html', {'obj': song})
+    return render(request, 'base/delete.html', {'song': song})
     
 @login_required(login_url='login')
 def deleteComment(request, pk):
@@ -279,6 +279,7 @@ def artist_page(request, artist):
 @csrf_exempt
 @login_required(login_url='login')
 def edit_request(request, pk):
+    messages.success(request, 'Request Sent!')
     song = Song.objects.get(id=pk)
     from_user = request.user
     to_user = song.creator
@@ -341,3 +342,7 @@ def updateUser(request):
             form.save()
             return redirect('user-profile', pk=user.id)
     return render(request, 'base/update_user.html', {'form': form})
+
+def top_lyrics(request):
+    ratings = Song.objects.annotate(avg_rate=(Avg("ratings__rating"))).order_by('avg_rate')[::-1][:5]
+    return render(request, 'base/top_lyrics.html', {'ratings':ratings})

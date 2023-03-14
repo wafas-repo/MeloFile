@@ -15,7 +15,7 @@
                     </div>
                 </div>
             </div>
-            <div class="column_layout-column_span column_layout-column_span">
+            <div style="z-index: 1000;" class="column_layout-column_span column_layout-column_span">
                 <div class=" tab profile_header-tabs profile_tabs">
                     
                     <button id="defaultOpen" class="tablinks profile_tabs-tab" onclick="profileTabs(event, 'featured')">
@@ -35,106 +35,112 @@
         </div>
     
     </div>
-    
-    <div class="column_layout">
-        <div class="column_layout-column_span column_layout-column_span--secondary">
-            <div class="profile_identity_and_description">
-                <div class="profile_identity">
-                    <h1 class="profile_identity-name_iq_and_role_icon u-hair_bottom_margin">@{{profile.username}}</h1>
-                </div>
-                <div class="profile_identity_and_description-action_row">
-                    {% if profile.username == request.user.username %}
-                    {% else %}
-                        {% if is_following %}     
-                            <form method="POST" action="{% url 'remove-follower' profile.id %}">
-                                {% csrf_token %}
-                                <button type=submit>UnFollow</button>
-                            </form>
-                        {% else %}
-                            {% if user.is_authenticated %}
-                            <form method="POST" action="{% url 'add-follower' profile.id %}">
-                                {% csrf_token %}
-                                 <button  type=submit>Follow</button>
-                            </form>
-                            {% else %}
-                            <a href="{% url 'login' %}"><button type="submit">Follow</button></a>
-                            {% endif %}
-                        {% endif %}
-                    {% endif %} 
-                </div>
-            </div>
-    
-        </div>
-        <div class="column_layout-column_span column_layout-column_span--primary">
-            <div class="u-right_margin u-x_large_top_margin">
-                <div id="featured" class="tabcontent">
-                {% if songs %}
-                    {% for song in songs %}
-                    <div class="profile_list_item profile_list_item--large_padding">
-                        <div class="u-float_left">
-                            <div style="display: flex; gap: 2rem;" class="featued-song-item">
-                                <div>
-                                    <img style="height: 2rem; width: 2rem;" src="https://img2.lsistatic.com/img/artists/x6n54/93459527.jpeg" alt="BTS">
-                                </div>
-                                <a class="feed-song-title" href="{% url 'song' song.id %}">{{song.title}}</a> 
-                                <br>
-                                <a href="{% url 'artists-page' song.artist.name %}">{{song.artist}}</a>
-                            </div>
-                        </div>
+    <div class="profilesection2">
+        <div class="column_layout">
+            <div class="column_layout-column_span column_layout-column_span--secondary">
+                <div class="profile_identity_and_description">
+                    <div class="profile_identity">
+                        <h1 class="profile_identity-name_iq_and_role_icon u-hair_bottom_margin">@{{profile.username}}</h1>
                     </div>
-                    {% endfor %}  
-                {% else %}
-                    <h5> Looks like {{profile.user.username}} has no contributions. </h5>
-                {% endif %}
+                    <div class="profile_identity_and_description-action_row">
+                        {% if profile.username == request.user.username %}
+                        {% else %}
+                            {% if is_following %}     
+                                <form method="POST" action="{% url 'remove-follower' profile.id %}">
+                                    {% csrf_token %}
+                                    <button type=submit>UnFollow</button>
+                                </form>
+                            {% else %}
+                                {% if user.is_authenticated %}
+                                <form method="POST" action="{% url 'add-follower' profile.id %}">
+                                    {% csrf_token %}
+                                     <button  type=submit>Follow</button>
+                                </form>
+                                {% else %}
+                                <a href="{% url 'login' %}"><button type="submit">Follow</button></a>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %} 
+                    </div>
                 </div>
-                <div id="followers" class="tabcontent">
-                    {% if following %}
-                        {% for follower in followers %}
+        
+            </div>
+            <div class="column_layout-column_span column_layout-column_span--primary">
+                <div class="u-right_margin u-x_large_top_margin">
+                    <div id="featured" class="tabcontent">
+                    {% if songs %}
+                        {% for song in songs %}
                         <div class="profile_list_item profile_list_item--large_padding">
                             <div class="u-float_left">
-                                <a class="user_badge" href="{% url 'user-profile' follower.id %}">
-                                    <div style="background-color: white;" class="user_avatar--x_small user_avatar clipped_background_image">
+                                <div style="display: flex; gap: 2rem;" class="featued-song-item">
+                                    <div>
+                                        <img style="height: 2rem; width: 2rem;" src="https://cdn.lsistatic.com/img/no_img_artist.png">
                                     </div>
-                                    <div class="user_badge-text">
-                                        <div class=".user_badge-login_and_iq">
-                                            <span class="user_badge-login ">@{{follower.username}}</span>
-                                        </div>
-                                    </div>
-                                </a>
+                                    <a class="feed-song-title" href="{% url 'song' song.id %}">{{song.title}}</a> 
+                                    <br>
+                                    <a href="{% url 'artists-page' song.artist.name %}">{{song.artist}}</a>
+                                </div>
                             </div>
                         </div>
-                        {% endfor %}
+                        {% endfor %}  
                     {% else %}
-                        <h5>Nothing Here.</h5>
+                        <h5> Looks like {{profile.user.username}} has no contributions. </h5>
                     {% endif %}
-                </div>
-                <div id="following" class="tabcontent"> 
-                    {% if following %}
-                        {% for follower in following %}
-                        <div class="profile_list_item profile_list_item--large_padding">
-                            <div class="u-float_left">
-                                <a class="user_badge" href="{% url 'user-profile' follower.id %}">
-                                    <div style="background-color: white;" class="user_avatar--x_small user_avatar clipped_background_image">
-                                    </div>
-                                    <div class="user_badge-text">
-                                        <div class=".user_badge-login_and_iq">
-                                            <span class="user_badge-login ">@{{follower.username}}</span>
+                    </div>
+                    <div id="followers" class="tabcontent">
+                        {% if following %}
+                            {% for follower in followers %}
+                            <div class="profile_list_item profile_list_item--large_padding">
+                                <div class="u-float_left">
+                                    <a class="user_badge" href="{% url 'user-profile' follower.id %}">
+                                        <div> 
+                                            <img class="user_avatar--x_small user_avatar clipped_background_image" src="{{ follower.avatar.url }}">
                                         </div>
-                                    </div>
-                                </a>
+                                        <div class="user_badge-text">
+                                            
+                                            <div class=".user_badge-login_and_iq">
+                                                <span class="user_badge-login ">@{{follower.username}}</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                        {% endfor %}
-                    {% else %}
-                        <h5>Nothing Here.</h5>
-                    {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            <h5>Nothing Here.</h5>
+                        {% endif %}
+                    </div>
+                    <div id="following" class="tabcontent"> 
+                        {% if following %}
+                            {% for follower in following %}
+                            <div class="profile_list_item profile_list_item--large_padding">
+                                <div class="u-float_left">
+                                    <a class="user_badge" href="{% url 'user-profile' follower.id %}">
+                                        <div>
+                                            <img class="user_avatar--x_small user_avatar clipped_background_image" src="{{ follower.avatar.url }}">
+                                        </div>
+                                        <div class="user_badge-text">
+                                            <div class=".user_badge-login_and_iq">
+                                                <span class="user_badge-login ">@{{follower.username}}</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <h5>Nothing Here.</h5>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
+        
         </div>
     
     </div>
-
+   
 </main>
+
 
 
 {% endblock %}
