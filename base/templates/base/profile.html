@@ -15,7 +15,7 @@
                     </div>
                 </div>
             </div>
-            <div style="z-index: 1000;" class="column_layout-column_span column_layout-column_span">
+            <div style="z-index: 100;" class="column_layout-column_span column_layout-column_span">
                 <div class=" tab profile_header-tabs profile_tabs">
                     
                     <button id="defaultOpen" class="tablinks profile_tabs-tab" onclick="profileTabs(event, 'featured')">
@@ -44,20 +44,21 @@
                     </div>
                     <div class="profile_identity_and_description-action_row">
                         {% if profile.username == request.user.username %}
+                            <a href="{% url 'update-user' %}"><button class="profile-btn" type="submit">Edit Profile</button></a>
                         {% else %}
                             {% if is_following %}     
                                 <form method="POST" action="{% url 'remove-follower' profile.id %}">
                                     {% csrf_token %}
-                                    <button type=submit>UnFollow</button>
+                                    <button class="profile-btn" type=submit>UnFollow</button>
                                 </form>
                             {% else %}
                                 {% if user.is_authenticated %}
                                 <form method="POST" action="{% url 'add-follower' profile.id %}">
                                     {% csrf_token %}
-                                     <button  type=submit>Follow</button>
+                                     <button class="profile-btn"   type=submit>Follow</button>
                                 </form>
                                 {% else %}
-                                <a href="{% url 'login' %}"><button type="submit">Follow</button></a>
+                                <a href="{% url 'login' %}"><button class="profile-btn" type="submit">Follow</button></a>
                                 {% endif %}
                             {% endif %}
                         {% endif %} 
@@ -84,7 +85,7 @@
                         </div>
                         {% endfor %}  
                     {% else %}
-                        <h5> Looks like {{profile.user.username}} has no contributions. </h5>
+                        <h5> Looks like {{ profile.username }} has no contributions. </h5>
                     {% endif %}
                     </div>
                     <div id="followers" class="tabcontent">

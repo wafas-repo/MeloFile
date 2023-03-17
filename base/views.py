@@ -219,15 +219,15 @@ def deleteSong(request, pk):
 @login_required(login_url='login')
 def deleteComment(request, pk):
     comment = Comment.objects.get(id=pk)
-
+    
     if request.user != comment.user:
         return HttpResponse('Your are not allowed here!!')
 
     if request.method == 'POST':
         comment.delete()
-        return redirect('home')
-    return render(request, 'base/delete.html', {'obj': comment})
-
+        
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+    
 @login_required(login_url='login')
 def rate(request, pk, rating):
     song = Song.objects.get(id=pk)
