@@ -40,10 +40,13 @@ Music is an art form that has the power to move us in many ways. It can make us 
     ```
 2. Make Migrations
     ```python
-        python manage.py makemigrations
+        python3 manage.py makemigrations
     ```
     ```python
-        python manage.py migrate
+        python3 manage.py migrate
+    ```
+    ```python
+        python3 manage.py runserver
     ```
 
 ## Files and Directories.
