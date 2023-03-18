@@ -126,34 +126,38 @@
                     </form>
                 </div>
                 {% endif %}
-        
-                {% for comment in comments %}
-        
-                    <div>
-                        <div class="activities__boxHeader roomListRoom__header">
-                            <a href="{% url 'user-profile' comment.user.id %}" class="roomListRoom__author">
-                                <div class="avatar avatar--small">
-                                    <img src="{{comment.user.avatar.url}}">
-                                </div>
-                                <p>
-                                    @{{comment.user}}
-                                    <span>{{comment.date_added|timesince}} ago</span>
-                                </p>
-                                {% if request.user == comment.user %}
-                                <form method="POST" action="{% url 'delete-comment' comment.id %}">
-                                    {% csrf_token %}
-                                  <Button style="background-color: transparent; border:none" type="submit"> <a href="">Delete</a></Button>
-                                </form>
-                                {% endif %}
-                            </a>
-                        </div>
-                        <p id="commentp" >{{comment.comment}}</p>
-                    </div>
 
-                    <hr>
+                {% if comments %}
         
-                {% endfor %}
-        
+                    {% for comment in comments %}
+            
+                        <div>
+                            <div class="activities__boxHeader roomListRoom__header">
+                                <a href="{% url 'user-profile' comment.user.id %}" class="roomListRoom__author">
+                                    <div class="avatar avatar--small">
+                                        <img src="{{comment.user.avatar.url}}">
+                                    </div>
+                                    <p>
+                                        @{{comment.user}}
+                                        <span>{{comment.date_added|timesince}} ago</span>
+                                    </p>
+                                    {% if request.user == comment.user %}
+                                    <form method="POST" action="{% url 'delete-comment' comment.id %}">
+                                        {% csrf_token %}
+                                    <Button style="background-color: transparent; border:none" type="submit"> <a href="">Delete</a></Button>
+                                    </form>
+                                    {% endif %}
+                                </a>
+                            </div>
+                            <p id="commentp" >{{comment.comment}}</p>
+                        </div>
+
+                        <hr>
+            
+                    {% endfor %}
+                {% else %}
+                    <h6>No comments yet.</h6>
+                {% endif %}
             </div>
 
     </div>
