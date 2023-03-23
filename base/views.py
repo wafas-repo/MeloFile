@@ -106,7 +106,7 @@ def createLyricPage(request):
         artist, created = Artist.objects.get_or_create(name=artist_name)
         spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(client_id='fcd3f1af02a844ad8e4b9157a14d4fa0', client_secret='4acded89cde646ccb6ce1607e1cab839'))
         track = request.POST.get('title')
-        results = spotify.search(q='track:' + track, type='track')
+        results = spotify.search(q='track:' + track + ' ' + artist.name, type='track')
         items = results['tracks']['items']
         if len(items) > 0:
             song_obj = items[0]
