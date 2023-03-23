@@ -37,6 +37,7 @@ class Song(models.Model):
     updated = models.DateTimeField(auto_now=True)
     created = models.DateField(auto_now_add=True,null=True)
     favorite = models.ManyToManyField(User, related_name='favorite', blank=True)
+    album_art = models.URLField(default='https://cdn.lsistatic.com/img/no_img_artist.png')
 
     def average_rating(self) -> float:
         return Rating.objects.filter(song=self).aggregate(Avg("rating"))["rating__avg"] or 0

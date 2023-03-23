@@ -3,6 +3,8 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 import json
+import spotipy
+from spotipy.oauth2 import SpotifyClientCredentials
 from django.db.models import Avg
 from django.core.paginator import Paginator
 from django.contrib.auth import authenticate, login, logout
@@ -12,11 +14,13 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from . models import Song, Genre, Comment, User, Rating, Artist, EditRequest
 from . forms import SongForm, UserForm
-
+from django.conf import settings
+clientId = settings.SOCIAL_AUTH_SPOTIFY_KEY
+clientSecret = settings.SOCIAL_AUTH_SPOTIFY_SECRET
 
 # Create your views here.
 
-def home(request):
+def home(request): 
     q = request.GET.get('q') if request.GET.get('q') != None else ''
     songs =  Song.objects.filter(
         Q(title__icontains=q) |
@@ -68,6 +72,13 @@ def song_page(request, pk):
     comments = song.comments.all().order_by('-date_added')
     contributors = song.contributors.all()
     song.contributors.add(song.creator)
+    spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(client_id='fcd3f1af02a844ad8e4b9157a14d4fa0', client_secret='4acded89cde646ccb6ce1607e1cab839'))
+    track = song.title
+    results = spotify.search(q='track:' + track + ' ' + song.artist.name, type='track')
+    items = results['tracks']['items']
+    if len(items) > 0:
+        song_obj = items[0]
+        track_img = song_obj['album']['images'][0]['url']
     if request.user.is_authenticated:
         rating = Rating.objects.filter(song=song, user=request.user).first()
         song.user_rating = rating.rating if rating else 0
@@ -83,7 +94,7 @@ def song_page(request, pk):
             comment=request.POST.get('comment')
         )
         return redirect('song', pk=song.id)
-    context = {'song': song, 'comments':comments, 'contributors':contributors, 'rating_count':rating_count, 'is_favorite': is_favorite }
+    context = {'song': song, 'comments':comments, 'contributors':contributors, 'rating_count':rating_count, 'is_favorite': is_favorite, 'track_img':track_img }
     return render(request, 'base/song.html', context)
 
 @login_required(login_url='login')
@@ -93,12 +104,19 @@ def createLyricPage(request):
     if request.method == 'POST':
         artist_name = request.POST.get('artist')
         artist, created = Artist.objects.get_or_create(name=artist_name)
-
+        spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(client_id='fcd3f1af02a844ad8e4b9157a14d4fa0', client_secret='4acded89cde646ccb6ce1607e1cab839'))
+        track = request.POST.get('title')
+        results = spotify.search(q='track:' + track, type='track')
+        items = results['tracks']['items']
+        if len(items) > 0:
+            song_obj = items[0]
+            track_img = song_obj['album']['images'][0]['url']
         song_obj , created = Song.objects.get_or_create(
             creator=request.user,
             artist=artist,
             title=request.POST.get('title'),
             lyrics=request.POST.get('lyrics'),
+            album_art=track_img,
         )
 
         genres = request.POST.getlist('genre')
@@ -270,10 +288,17 @@ def artists_index(request, letter):
 
 def artist_page(request, artist):
     artist_songs = Song.objects.filter(artist__name=artist).annotate(avg_rate=(Avg("ratings__rating"))).order_by('avg_rate')[::-1][:5]
+    spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(client_id=clientId, client_secret=clientSecret))
+    name = artist
+    results = spotify.search(q='artist:' + name, type='artist')
+    items = results['artists']['items']
+    if len(items) > 0:
+        artist_obj = items[0]
+        artist_img = artist_obj['images'][0]['url']
     page = Paginator(artist_songs, 7)
     page_list = request.GET.get('page')
     page = page.get_page(page_list)
-    context = {'artist':artist, 'artist_songs':artist_songs, 'page':page }
+    context = {'artist':artist, 'artist_songs':artist_songs, 'page':page, 'artist_img':artist_img }
     return render(request, 'base/artists_page.html', context)
 
 @csrf_exempt
