@@ -8,7 +8,11 @@
     <div class="song__header">
 
         <div class="mobile-song-art">
-            <img style="height: 15rem; width:15rem;" src="https://cdn.lsistatic.com/img/no_img_artist.png" data-visible="true"> 
+            {% if track_img %}
+                <img style="height: 15rem; width:15rem;" src="{{track_img}}" data-visible="true"> 
+            {% else %}
+                <img style="height: 15rem; width:15rem;" src="https://cdn.lsistatic.com/img/no_img_artist.png" data-visible="true" >
+            {% endif %}
         </div>
 
         <div id="mobile-song-info" class="song-header-info">
