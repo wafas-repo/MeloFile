@@ -31,8 +31,8 @@ SECRET_KEY = str(os.getenv('SECRET_KEY'))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
-CSRF_TRUSTED_ORIGINS = ['https://melofile.up.railway.app','https://*.127.0.0.1']
+ALLOWED_HOSTS = ['.vercel.app', '127.0.0.1', 'localhost']
+CSRF_TRUSTED_ORIGINS = ['https://*.127.0.0.1']
 
 
 # Application definition
@@ -104,8 +104,8 @@ DATABASES = {
         'NAME':'railway',
         'USER':'postgres',
         'PASSWORD': str(os.getenv('PASSWORD')),
-        'HOST':'containers-us-west-96.railway.app',
-        'PORT':'7292',
+        'HOST':'viaduct.proxy.rlwy.net',
+        'PORT':'40951',
     }
 }
 
@@ -148,7 +148,7 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/images/'
 
 STATICFILES_DIRS = [
-    BASE_DIR / 'static'
+    BASE_DIR / 'base/static'
 ]
 
 MEDIA_ROOT = BASE_DIR / 'base/static/images'
