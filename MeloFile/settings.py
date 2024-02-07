@@ -163,11 +163,6 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOW_ALL_ORIGINS = True
 
-# AWS configuration
-
-AWS_ACCESS_KEY_ID = 'AKIAW3MD7YXCDNXPGRJ6'
-AWS_SECRET_ACCESS_KEY = '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'
-
 # Storage configuration for amazon S3
 
 AWS_STORAGE_BUCKET_NAME = 'melofile-bkt-1'
