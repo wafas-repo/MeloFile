@@ -32,7 +32,7 @@ def home(request):
     page = page.get_page(page_list)
     genres= Genre.objects.all()
     latest = Song.objects.all()[::-1][0:5]
-    ratings = Song.objects.annotate(avg_rate=(Avg("ratings__rating"))).order_by('avg_rate')[::-1][:5]
+    ratings = Song.objects.annotate(avg_rate=(Avg("ratings__rating"))).order_by('avg_rate')[:5]
     context = {'genres': genres, 'latest':latest, 'ratings': ratings, 'page':page}
     return render(request, 'base/home.html', context )
 
@@ -369,5 +369,5 @@ def updateUser(request):
     return render(request, 'base/update_user.html', {'form': form})
 
 def top_lyrics(request):
-    ratings = Song.objects.annotate(avg_rate=(Avg("ratings__rating"))).order_by('avg_rate')[::-1][:5]
+    ratings = Song.objects.annotate(avg_rate=(Avg("ratings__rating"))).order_by('avg_rate')[:5]
     return render(request, 'base/top_lyrics.html', {'ratings':ratings})
